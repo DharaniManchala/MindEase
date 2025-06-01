@@ -1,0 +1,339 @@
+ /* body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f9ff;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.hero {
+  background: url('img.jpg') no-repeat center center/cover;
+  height: 100vh;
+  color: white;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+.nav-links a:nth-child(1) { animation-delay: 1s; }
+.nav-links a:nth-child(2) { animation-delay: 2s; }
+.nav-links a:nth-child(3) { animation-delay: 3s; }
+
+.hero-text h2,
+.hero-text p {
+  opacity: 0;
+  animation: fadeInUp 2s ease forwards;
+}
+
+.hero-text h2 {
+  animation-delay: 1s;
+}
+
+.hero-text p {
+  animation-delay: 2s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.tip-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.tip {
+  background: #e0f7fa;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease;
+}
+
+.book-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.book {
+  width: 200px;
+}
+
+.book img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.faq-item {
+  margin: 20px;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.question {
+  width: 100%;
+  padding: 10px;
+  background: #006064;
+  color: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer {
+  display: none;
+  padding: 10px;
+  background: #e0f2f1;
+}
+
+footer {
+  background: #004d40;
+  color: white;
+  padding: 20px;
+  text-align: center;
+} 
+  */
+  body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f9ff;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.hero {
+  background: url('hello.jpg') no-repeat center center/cover;
+  height: 100vh;
+  color: white;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.main-title {
+  font-size: 36px;
+  font-weight: bold;
+}
+* {
+  box-sizing: border-box;
+}
+
+
+/* nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.nav-links a {
+  margin-left: 50px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background: #ffffff55;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+  background: #ffffffaa;
+  color: #004d40;
+} */
+ nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically */
+  padding: 20px 40px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px; /* Adds space between buttons */
+  flex-wrap: nowrap; /* Prevent buttons from wrapping */
+}
+
+.nav-links a {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: white;
+  color: #006064;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.nav-links a:hover {
+  background-color: #b2ebf2;
+  color: #004d40;
+}
+
+
+.hero-text h1 {
+  font-size: 50px;
+  margin: 20px 0 10px;
+  animation: fadeInUp 1.5s ease forwards;
+}
+
+.hero-text p {
+  font-size: 22px;
+  animation: fadeInUp 2s ease forwards;
+}
+
+section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.tip-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.tip {
+  background: #e0f7fa;
+  padding: 25px;
+  font-size: 20px;
+  border-radius: 12px;
+  width: 220px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease;
+}
+
+.book-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding-top: 30px;
+}
+
+.book {
+  width: 220px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.book img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.faq-item {
+  margin: 20px;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.question {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  background: #00796b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer {
+  display: none;
+  padding: 15px;
+  background: #e0f2f1;
+  font-size: 16px;
+  border-left: 3px solid #00796b;
+}
+
+footer {
+  background: #004d40;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
