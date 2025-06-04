@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +16,18 @@
             height: 100vh;
             margin: 0;
         }
+         /* body {
+          background: url('dhar.jpg') no-repeat center center fixed;
+          background-size: cover;
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+         }   */
         .login-container {
             background: rgba(255,255,255,0.95);
             padding: 32px 28px;
@@ -90,9 +102,121 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required autocomplete="current-password">
             </div>
-            <button type="submit" class="login-btn">Sign In</button>
+            <button type="submit" class="login-btn">Log In </button>
         </form>
         <a href="#" class="signup-link">Don't have an account? Sign up</a>
     </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #001f3f;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.3);
+      width: 350px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .login-container h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      outline: none;
+    }
+
+    .login-container input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background-color: #2e309c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 20px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #1c1f78;
+    }
+  </style>
+</head>
+<body>
+    <!-- ...existing code... -->
+<div class="login-container">
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="Enter Email" />
+  <input type="password" id="password" placeholder="Enter Password" />
+  <button class="login-btn" id="loginBtn">Login</button>
+  <div id="login-msg"></div>
+</div>
+<script>
+document.getElementById('loginBtn').onclick = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const msgDiv = document.getElementById('login-msg');
+
+  const res = await fetch('http://localhost:5000/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+  if (res.ok) {
+    localStorage.setItem('userEmail', email); // Save email for later use (e.g., logout)
+    window.location.href = "sidebar.html";    // Redirect to dashboard/sidebar
+  } else {
+    msgDiv.textContent = data.error || "Login failed";
+    msgDiv.style.color = "red";
+  }
+};
+</script>
+ 
+    
+
 </body>
 </html>

@@ -69,7 +69,8 @@
   <!-- Sidebar -->
   <div id="sidebar">
     <a href="#" onclick="toggleSidebar()">Previous History</a>
-    <a href="#" onclick="toggleSidebar()">Logout</a>
+    <!-- <a href="#" onclick="toggleSidebar()">Logout</a> -->
+     <a href="#" onclick="logoutUser(); return false;">Logout</a>
   </div>
 
   <!-- Overlay -->
@@ -85,7 +86,7 @@
 
     <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
       <!-- Stress Categories -->
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition"   onclick="window.location.href='aca.html'">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
         </svg>
@@ -134,18 +135,32 @@
   </div>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      if (sidebar.style.width === '250px') {
-        sidebar.style.width = '0';
-        overlay.style.display = 'none';
-      } else {
-        sidebar.style.width = '250px';
-        overlay.style.display = 'block';
-      }
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if (sidebar.style.width === '250px') {
+      sidebar.style.width = '0';
+      overlay.style.display = 'none';
+    } else {
+      sidebar.style.width = '250px';
+      overlay.style.display = 'block';
     }
-  </script>
+  }
+
+  async function logoutUser() {
+    const email = localStorage.getItem('userEmail');
+    if (email) {
+      await fetch('http://localhost:5000/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+       localStorage.removeItem('userEmail');
+    }
+    window.location.href = "../frontend/first.html";
+    // window.location.href = "first.html"; // Redirect to starting page
+  }
+</script>
 
 </body>
 </html>
