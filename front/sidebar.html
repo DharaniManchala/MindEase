@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Tracker Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('dharu.jpg'); /* Your background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    /* Hamburger bars style */
+    #menu-btn div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+    /* Sidebar styles */
+    #sidebar {
+      height: 100vh;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(31, 41, 55, 0.95); /* Tailwind gray-800 with opacity */
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 100;
+    }
+    #sidebar a {
+      padding: 15px 30px;
+      text-decoration: none;
+      color: white;
+      display: block;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    #sidebar a:hover {
+      background-color: #374151; /* Tailwind gray-700 */
+    }
+    /* Overlay when sidebar is open */
+    #overlay {
+      display: none;
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.4);
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen">
+
+  <!-- Hamburger Icon -->
+  <div id="menu-btn" class="fixed top-5 left-5 cursor-pointer z-110" onclick="toggleSidebar()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <a href="#" onclick="toggleSidebar()">Previous History</a>
+    <a href="#" onclick="toggleSidebar()">Logout</a>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="pt-24 px-6 bg-black bg-opacity-50 min-h-screen">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold bg-white bg-opacity-10 p-4 rounded-xl inline-block">
+        Welcome! How are you feeling today?
+      </h1>
+    </div>
+
+    <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      <!-- Stress Categories -->
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
+        </svg>
+        <span>Academic Stress</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3h-4M9 20H4v-2a3 3 0 013-3h4m3-6a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <span>Family Issues</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m-6 6a9 9 0 1118 0 9 9 0 01-18 0z" />
+        </svg>
+        <span>Illness</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6m-3-12a9 9 0 110 18 9 9 0 010-18z" />
+        </svg>
+        <span>Work Stress</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <circle cx="5" cy="12" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="19" cy="12" r="2"/>
+        </svg>
+        <span>Relationship Problems</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Time Management/Workload</span> 
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+             
+        <span>Other</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      if (sidebar.style.width === '250px') {
+        sidebar.style.width = '0';
+        overlay.style.display = 'none';
+      } else {
+        sidebar.style.width = '250px';
+        overlay.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>
