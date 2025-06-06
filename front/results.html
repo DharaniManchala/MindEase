@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MindEase - Stress Slides</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('one.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .slide {
+      display: none;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+    .slide.active {
+      display: flex;
+    }
+    .circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      margin: 15px;
+    }
+    .level {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .level.low { color: #00ff99; }
+    .level.medium { color: #ffd700; }
+    .level.high { color: #ff5050; }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .rec-list li, .effects-list li {
+      font-size: 20px;
+      margin: 12px 0;
+      text-align: left;
+    }
+    .rec-list, .effects-list {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      border-radius: 15px;
+      width: 70%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .action-btn {
+      padding: 15px 30px;
+      font-size: 20px;
+      background-color: #00c2ff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00000077;
+      margin-top: 30px;
+    }
+    .nav-buttons {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 10;
+    }
+    .nav-buttons button {
+      padding: 12px 28px;
+      font-size: 16px;
+      background-color: #0066cc;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .nav-buttons button:hover {
+      background-color: #004a99;
+    }
+  </style>
+</head>
+<body>
+  <div id="slides-root"></div>
+  <div class="nav-buttons">
+    <button id="prevBtn">⟨ Previous</button>
+    <button id="nextBtn">Next ⟩</button>
+  </div>
+  <script>
+    // Read results from localStorage
+    const result = JSON.parse(localStorage.getItem('stressResults') || '{}');
+    const userAnswers = result.answers || [2, 3, 4, 3, 4, 2]; // fallback if not present
+    const stressDist = result.stressDist || { Low: 3, Medium: 8, High: 4 };
+
+    if (!result.level) {
+      document.getElementById('slides-root').innerHTML = `
+        <div class="slide active">
+          <h1>No Results Found</h1>
+          <div>Please complete the quiz first.</div>
+        </div>
+      `;
+      document.querySelector('.nav-buttons').style.display = 'none';
+    } else {
+      const slidesData = [
+        {
+          title: "Your Stress Level",
+          content: `<span class="level ${result.level?.toLowerCase() || ''}">${result.score || ''} / 10</span>
+            <div class="circle">
+              <svg width="120" height="120">
+                <circle cx="60" cy="60" r="50" stroke="#222" stroke-width="12" fill="none"/>
+                <circle cx="60" cy="60" r="50" stroke="#00e0ff" stroke-width="12" fill="none"
+                  stroke-dasharray="314"
+                  stroke-dashoffset="${314 - (314 * (result.percent || 0) / 100)}"
+                  style="transition:stroke-dashoffset 1s;"/>
+              </svg>
+              <div style="position:absolute;top:0;left:0;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;">
+                ${result.percent || ''}%
+              </div>
+            </div>
+            <div class="level ${result.level?.toLowerCase() || ''}">${result.level || ''}</div>`
+        },
+        {
+          title: "Stress Level Over Time",
+          content: `<canvas id="stressChart" width="400" height="200"></canvas>
+                    <div style="margin-top:10px;font-size:18px;color:#ffd700;">
+                      <span id="chartTooltip"></span>
+                    </div>`
+        },
+        {
+          title: "Your Stress Level (Progress)",
+          content: `
+            <div style="width:80%;margin:0 auto;">
+              <div style="background:#222;border-radius:20px;height:40px;overflow:hidden;">
+                <div style="width:${result.percent || 0}%;background:${
+                  result.level === 'High' ? '#ff5050' : result.level === 'Medium' ? '#ffd700' : '#00ff99'
+                };height:100%;transition:width 1s;"></div>
+              </div>
+              <div style="font-size:30px;margin-top:10px;text-align:center;">${result.percent || 0}%</div>
+              <div style="font-size:40px;font-weight:bold;color:${
+                result.level === 'High' ? '#ff5050' : result.level === 'Medium' ? '#ffd700' : '#00ff99'
+              }">${result.level || ''}</div>
+            </div>
+          `
+        },
+        // {
+        //   title: "Recommendations",
+        //   content: `<div class="rec-list" style="font-size:22px;">
+        //     <span>${result.rec_icon || ''}</span> ${result.recommendation || ''}
+        //   </div>`
+        // },
+        // {
+        //   title: "Potential Effects of Stress",
+        //   content: `<div class="effects-list" style="font-size:22px;">
+        //     <span>${result.effect_icon || ''}</span> ${result.effect || ''}
+        //   </div>`
+        // },
+//         {
+//   title: "Recommendations",
+//   content: `<div class="rec-list" style="font-size:22px;">
+//     <span>${(result.recommendations && result.recommendations[0]?.icon) || ''}</span> ${(result.recommendations && result.recommendations[0]?.text) || ''}
+//   </div>`
+// },
+// {
+//   title: "Potential Effects of Stress",
+//   content: `<div class="effects-list" style="font-size:22px;">
+//     <span>${(result.effects && result.effects[0]?.icon) || ''}</span> ${(result.effects && result.effects[0]?.text) || ''}
+//   </div>`
+// },
+{
+  title: "Recommendations",
+  content: `<ul class="rec-list" style="font-size:22px;">
+    ${(result.recommendations || []).map(r => `<li>${r.icon} ${r.text}</li>`).join('')}
+  </ul>`
+},
+{
+  title: "Potential Effects of Stress",
+  content: `<ul class="effects-list" style="font-size:22px;">
+    ${(result.effects || []).map(e => `<li>${e.icon} ${e.text}</li>`).join('')}
+  </ul>`
+},
+{
+  title: "Recommended Resources",
+  content: `<ul class="rec-list" style="font-size:22px;">
+    ${(result.resources || []).map(r => 
+      `<li>${r.Icon || r.icon || ''} <b>${r.Title || r.title}</b> 
+      <a href="${r.Link || r.link}" target="_blank" style="color:#00e0ff;text-decoration:underline;">[${r.ResourceType || r.type}]</a>
+      <br><span style="font-size:16px;">${r.Description || r.description}</span></li>`
+    ).join('')}
+  </ul>`
+},
+        {
+          title: "Takeaway",
+          content: `<div style="font-size:22px;margin-bottom:20px;">
+                      <b>Your stress level is <span class="level ${result.level?.toLowerCase() || ''}">${result.level}</span>.</b><br>
+                      Remember: Consistent self-care and support can make a big difference!
+                    </div>
+                    <button class="action-btn" onclick="alert('Great! Start with one small step today!')">Take Action</button>`
+        }
+      ];
+
+      // Render slides
+      const slidesRoot = document.getElementById('slides-root');
+      slidesRoot.innerHTML = slidesData.map((slide, i) => `
+        <div class="slide${i === 0 ? ' active' : ''}">
+          <h1>${slide.title}</h1>
+          <div>${slide.content}</div>
+        </div>
+      `).join('');
+      const slides = document.querySelectorAll('.slide');
+      let current = 0;
+      const total = slides.length;
+      const nextBtn = document.getElementById('nextBtn');
+      const prevBtn = document.getElementById('prevBtn');
+
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+        });
+        // Hide "Next" on last slide, show on others
+        nextBtn.style.display = (index === total - 1) ? 'none' : '';
+        prevBtn.style.display = (index === 0) ? 'none' : '';
+        // Draw charts if on graph slides
+        if (slides[index].querySelector('#stressChart')) drawChart();
+      }
+
+      nextBtn.onclick = () => {
+        if (current < total - 1) { current++; showSlide(current); }
+      };
+      prevBtn.onclick = () => {
+        if (current > 0) { current--; showSlide(current); }
+      };
+
+      // Auto slide every 5 seconds (except on last slide)
+      setInterval(() => {
+        if (current < total - 1) { current++; showSlide(current); }
+      }, 5000);
+
+      // Initial state
+      showSlide(current);
+
+      // Draw Chart.js line chart
+      function drawChart() {
+        const ctx = document.getElementById('stressChart').getContext('2d');
+        if (window.stressChartInstance) window.stressChartInstance.destroy();
+        window.stressChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: userAnswers.map((_, i) => `Q${i + 1}`),
+            datasets: [{
+              label: 'Your Stress Score',
+              data: userAnswers,
+              borderColor: '#ffd700',
+              backgroundColor: 'rgba(255,215,0,0.2)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 6,
+              pointBackgroundColor: '#ff5050'
+            }]
+          },
+          options: {
+            responsive: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: function(context) {
+                    if (context.dataIndex === userAnswers.length - 1) {
+                      return `Score: ${context.parsed.y} (Your level: ${result.level})`;
+                    }
+                    return `Score: ${context.parsed.y}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                min: 1,
+                max: 5,
+                title: { display: true, text: 'Stress Score' }
+              }
+            }
+          }
+        });
+        document.getElementById('chartTooltip').innerText =
+          `Your last answer indicates "${result.level}" stress level.`;
+      }
+    }
+   
+
+// ... rest of your JS code ...
+  </script>
+</body>
+</html>

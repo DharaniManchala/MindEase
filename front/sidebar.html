@@ -1,3 +1,4 @@
+<!-- 
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -7,12 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-image: url('dharu.jpg'); /* Your background image */
+      background-image: url('dharu.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
-    /* Hamburger bars style */
     #menu-btn div {
       width: 25px;
       height: 3px;
@@ -20,14 +20,13 @@
       margin: 5px 0;
       transition: 0.4s;
     }
-    /* Sidebar styles */
     #sidebar {
       height: 100vh;
       width: 0;
       position: fixed;
       top: 0;
       left: 0;
-      background-color: rgba(31, 41, 55, 0.95); /* Tailwind gray-800 with opacity */
+      background-color: rgba(31, 41, 55, 0.95);
       overflow-x: hidden;
       transition: 0.3s;
       padding-top: 60px;
@@ -42,9 +41,8 @@
       transition: 0.3s;
     }
     #sidebar a:hover {
-      background-color: #374151; /* Tailwind gray-700 */
+      background-color: #374151;
     }
-    /* Overlay when sidebar is open */
     #overlay {
       display: none;
       position: fixed;
@@ -59,24 +57,19 @@
 </head>
 <body class="text-white font-sans min-h-screen">
 
-  <!-- Hamburger Icon -->
   <div id="menu-btn" class="fixed top-5 left-5 cursor-pointer z-110" onclick="toggleSidebar()">
     <div></div>
     <div></div>
     <div></div>
   </div>
 
-  <!-- Sidebar -->
   <div id="sidebar">
     <a href="#" onclick="toggleSidebar()">Previous History</a>
-    <!-- <a href="#" onclick="toggleSidebar()">Logout</a> -->
-     <a href="#" onclick="logoutUser(); return false;">Logout</a>
+    <a href="#" onclick="logoutUser(); return false;">Logout</a>
   </div>
 
-  <!-- Overlay -->
   <div id="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- Main Content -->
   <div class="pt-24 px-6 bg-black bg-opacity-50 min-h-screen">
     <div class="text-center mb-10">
       <h1 class="text-3xl font-bold bg-white bg-opacity-10 p-4 rounded-xl inline-block">
@@ -85,8 +78,8 @@
     </div>
 
     <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-      <!-- Stress Categories -->
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition"   onclick="window.location.href='aca.html'">
+      
+      <div id="academic-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='aca.html'">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
         </svg>
@@ -128,13 +121,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-             
         <span>Other</span>
       </div>
     </div>
   </div>
 
   <script>
+    const email = localStorage.getItem('userEmail');
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -155,12 +148,339 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       });
-       localStorage.removeItem('userEmail');
+      localStorage.removeItem('userEmail');
     }
     window.location.href = "../frontend/first.html";
-    // window.location.href = "first.html"; // Redirect to starting page
   }
-</script>
 
+  function daysSince(dateString) {
+    const now = Date.now();
+    const then = parseInt(dateString, 10);
+    return Math.floor((now - then) / (1000 * 60 * 60 * 24));
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const card = document.getElementById('academic-stress-card');
+    const notified = localStorage.getItem('highStressNotified');
+    const date = localStorage.getItem('highStressDate');
+
+    // Show red dot for up to 7 days after high stress
+    if (notified === 'true' && date && daysSince(date) < 7) {
+      // Create red dot
+      const dot = document.createElement('span');
+      dot.id = "stress-dot";
+      dot.style.position = "absolute";
+      dot.style.top = "12px";
+      dot.style.right = "18px";
+      dot.style.width = "16px";
+      dot.style.height = "16px";
+      dot.style.background = "#ff3333";
+      dot.style.borderRadius = "50%";
+      dot.style.border = "2px solid #fff";
+      dot.style.boxShadow = "0 0 6px #ff333399";
+      dot.style.cursor = "pointer";
+      dot.title = "Click for stress safety tips";
+      dot.style.zIndex = 10;
+
+      // Position parent relative
+      card.style.position = "relative";
+      card.appendChild(dot);
+
+      // Tooltip logic
+      dot.onclick = function(e) {
+        e.stopPropagation();
+        showStressTooltip(card);
+      };
+    }
+    // Optionally, clear notification after 7 days
+    if (notified === 'true' && date && daysSince(date) >= 7) {
+      localStorage.removeItem('highStressNotified');
+      localStorage.removeItem('highStressDate');
+    }
+  });
+
+  function showStressTooltip(parent) {
+    // Remove existing tooltip if any
+    const old = document.getElementById('stress-tooltip');
+    if (old) old.remove();
+
+    // Create tooltip
+    const tip = document.createElement('div');
+    tip.id = "stress-tooltip";
+    tip.style.position = "absolute";
+    tip.style.top = "50px";
+    tip.style.right = "0";
+    tip.style.background = "#fff";
+    tip.style.color = "#001133";
+    tip.style.padding = "18px 24px";
+    tip.style.borderRadius = "10px";
+    tip.style.boxShadow = "0 4px 24px #0005";
+    tip.style.fontSize = "17px";
+    tip.style.zIndex = 100;
+    tip.innerHTML = `<b>High Stress Alert</b><br>
+      <div style="margin-top:8px;">
+        Your stress level was recently high.<br>
+        <b>Safety Tips:</b>
+        <ul style="margin:8px 0 0 18px;text-align:left;">
+          <li>💤 Get enough sleep</li>
+          <li>🌞 Spend time outdoors</li>
+          <li>😌 Practice deep breathing exercises</li>
+        </ul>
+      </div>`;
+    parent.appendChild(tip);
+
+    // Remove tooltip on click outside
+    setTimeout(() => {
+      document.addEventListener('click', function handler(e) {
+        if (!tip.contains(e.target)) {
+          tip.remove();
+          document.removeEventListener('click', handler);
+        }
+      });
+    }, 10);
+  }
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stress Tracker Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('dharu.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #menu-btn div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+    #sidebar {
+      height: 100vh;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(31, 41, 55, 0.95);
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 100;
+    }
+    #sidebar a {
+      padding: 15px 30px;
+      text-decoration: none;
+      color: white;
+      display: block;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    #sidebar a:hover {
+      background-color: #374151;
+    }
+    #overlay {
+      display: none;
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.4);
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen">
+
+  <div id="menu-btn" class="fixed top-5 left-5 cursor-pointer z-110" onclick="toggleSidebar()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div id="sidebar">
+    <a href="#" onclick="toggleSidebar()">Previous History</a>
+    <a href="#" onclick="logoutUser(); return false;">Logout</a>
+  </div>
+
+  <div id="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="pt-24 px-6 bg-black bg-opacity-50 min-h-screen">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold bg-white bg-opacity-10 p-4 rounded-xl inline-block">
+        Welcome! How are you feeling today?
+      </h1>
+    </div>
+
+    <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      <div id="academic-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='aca.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
+        </svg>
+        <span>Academic Stress</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3h-4M9 20H4v-2a3 3 0 013-3h4m3-6a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <span>Family Issues</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m-6 6a9 9 0 1118 0 9 9 0 01-18 0z" />
+        </svg>
+        <span>Illness</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6m-3-12a9 9 0 110 18 9 9 0 010-18z" />
+        </svg>
+        <span>Work Stress</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <circle cx="5" cy="12" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="19" cy="12" r="2"/>
+        </svg>
+        <span>Relationship Problems</span>
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Time Management/Workload</span> 
+      </div>
+      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Other</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      if (sidebar.style.width === '250px') {
+        sidebar.style.width = '0';
+        overlay.style.display = 'none';
+      } else {
+        sidebar.style.width = '250px';
+        overlay.style.display = 'block';
+      }
+    }
+
+    async function logoutUser() {
+      const email = localStorage.getItem('userEmail');
+      if (email) {
+        await fetch('http://localhost:5000/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        localStorage.removeItem('userEmail');
+      }
+      window.location.href = "../frontend/first.html";
+    }
+
+    function daysSince(dateString) {
+      const now = Date.now();
+      const then = parseInt(dateString, 10);
+      return Math.floor((now - then) / (1000 * 60 * 60 * 24));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const email = localStorage.getItem('userEmail');
+      const card = document.getElementById('academic-stress-card');
+      const notified = localStorage.getItem('highStressNotified_' + email);
+      const date = localStorage.getItem('highStressDate_' + email);
+
+      // Show red dot for up to 7 days after high stress
+      if (notified === 'true' && date && daysSince(date) < 7) {
+        // Create red dot
+        const dot = document.createElement('span');
+        dot.id = "stress-dot";
+        dot.style.position = "absolute";
+        dot.style.top = "12px";
+        dot.style.right = "18px";
+        dot.style.width = "16px";
+        dot.style.height = "16px";
+        dot.style.background = "#ff3333";
+        dot.style.borderRadius = "50%";
+        dot.style.border = "2px solid #fff";
+        dot.style.boxShadow = "0 0 6px #ff333399";
+        dot.style.cursor = "pointer";
+        dot.title = "Click for stress safety tips";
+        dot.style.zIndex = 10;
+
+        // Position parent relative
+        card.style.position = "relative";
+        card.appendChild(dot);
+
+        // Tooltip logic
+        dot.onclick = function(e) {
+          e.stopPropagation();
+          showStressTooltip(card);
+        };
+      }
+      // Optionally, clear notification after 7 days
+      if (notified === 'true' && date && daysSince(date) >= 7) {
+        localStorage.removeItem('highStressNotified_' + email);
+        localStorage.removeItem('highStressDate_' + email);
+      }
+    });
+
+    function showStressTooltip(parent) {
+      // Remove existing tooltip if any
+      const old = document.getElementById('stress-tooltip');
+      if (old) old.remove();
+
+      // Create tooltip
+      const tip = document.createElement('div');
+      tip.id = "stress-tooltip";
+      tip.style.position = "absolute";
+      tip.style.top = "50px";
+      tip.style.right = "0";
+      tip.style.background = "#fff";
+      tip.style.color = "#001133";
+      tip.style.padding = "18px 24px";
+      tip.style.borderRadius = "10px";
+      tip.style.boxShadow = "0 4px 24px #0005";
+      tip.style.fontSize = "17px";
+      tip.style.zIndex = 100;
+      tip.innerHTML = `<b>High Stress Alert</b><br>
+        <div style="margin-top:8px;">
+          Your stress level was recently high.<br>
+          <b>Safety Tips:</b>
+          <ul style="margin:8px 0 0 18px;text-align:left;">
+            <li>💤 Get enough sleep</li>
+            <li>🌞 Spend time outdoors</li>
+            <li>😌 Practice deep breathing exercises</li>
+          </ul>
+        </div>`;
+      parent.appendChild(tip);
+
+      // Remove tooltip on click outside
+      setTimeout(() => {
+        document.addEventListener('click', function handler(e) {
+          if (!tip.contains(e.target)) {
+            tip.remove();
+            document.removeEventListener('click', handler);
+          }
+        });
+      }, 10);
+    }
+  </script>
 </body>
 </html>
