@@ -506,11 +506,15 @@ document.getElementById('submitBtn').onclick = function() {
     console.error(err);
   });
 };
+    // document.getElementById('backBtn').onclick = function(e) {
+    //   e.preventDefault();
+    //   current = -1;
+    //   renderQuestion();
+    // };
     document.getElementById('backBtn').onclick = function(e) {
-      e.preventDefault();
-      current = -1;
-      renderQuestion();
-    };
+  e.preventDefault();
+  window.location.href = 'sidebar.html'; // or the correct path to your sidebar
+};
     document.getElementById('showQuestionsIcon').onclick = function(e) {
       e.preventDefault();
       if (current < 0) {
