@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Others Survey</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      background: url('bindu.jpg') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .back {
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      font-size: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .icon {
+      display: block;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px auto;
+      cursor: pointer;
+      filter: drop-shadow(0 0 6px #FFD700);
+      transition: transform 0.3s ease;
+    }
+
+    .icon:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 12px #FFEA00);
+    }
+
+    h2 {
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #FFD700;
+      text-shadow: 1px 1px 6px #000;
+      text-align: center;
+    }
+
+    .question-box {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 40px;
+      color: #fff;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      background: #0055aa;
+      color: white;
+      transition: background 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 85, 170, 0.6);
+    }
+
+    .btn:hover {
+      background: #0077dd;
+      box-shadow: 0 4px 12px rgba(0, 119, 221, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <a href="#" class="back" id="backBtn">&larr; Back</a>
+
+  <div class="question-content">
+    <!-- Others icon for "Others" category -->
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-label="Others Category" role="img" >
+      <circle cx="32" cy="32" r="30" fill="#FFD700" stroke="#FFC107" stroke-width="3"/>
+      <text x="32" y="44" text-anchor="middle" font-size="36" font-family="Segoe UI, sans-serif" fill="#FFF" font-weight="bold">?</text>
+    </svg>
+
+    <h2>OTHERS</h2>
+
+    <div id="qa-section">
+      <div id="question-box" class="question-box"></div>
+      <form id="options-box" style="text-align:left;"></form>
+
+      <div class="buttons">
+        <button class="btn" id="prevBtn" type="button">Previous</button>
+        <button class="btn" id="nextBtn" type="button">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: 'Do you feel misunderstood or unsupported by those around you?',
+        options: ['Never', 'Sometimes', 'Often', 'Always']
+      },
+      {
+        q: 'Are you currently facing any life changes (moving, break-up, loss, etc)?',
+        options: ['Yes', 'No', 'Prefer not to say']
+      },
+      {
+        q: 'How often do you feel mentally or emotionally exhausted for no clear reason?',
+        options: ['Never', 'Occasionally', 'Frequently', 'Almost daily']
+      },
+      {
+        q: 'Do you struggle with sleep or physical discomfort unrelated to known illness?',
+        options: ['No', 'Sometimes', 'Often', 'Always']
+      },
+      {
+        q: 'Are there any personal fears or insecurities affecting your peace of mind?',
+        options: ['Not at all', 'A little', 'Significantly', 'Extremely']
+      },
+      {
+        q: 'Do you think your stress might be related to something not listed above?',
+        options: ['Yes', 'No', 'Maybe']
+      }
+    ];
+
+    let current = 0;
+    let selected = Array(questions.length).fill(null);
+    const questionBox = document.getElementById('question-box');
+    const optionsBox = document.getElementById('options-box');
+    const qaSection = document.getElementById('qa-section');
+    const icon = document.querySelector('.icon');
+    const backBtn = document.getElementById('backBtn');
+
+    function renderQuestion() {
+      const q = questions[current];
+      questionBox.textContent = q.q;
+      optionsBox.innerHTML = q.options.map((opt, i) =>
+        `<label>
+          <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} />
+          ${opt}
+        </label>`
+      ).join('');
+      Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
+        radio.onclick = () => selected[current] = i;
+      });
+    }
+
+    backBtn.onclick = (e) => {
+      e.preventDefault();
+      // Hide only the questions and options section
+      qaSection.style.display = 'none';
+    };
+
+    icon.onclick = () => {
+      // Show questions section and reset to first question on icon click
+      qaSection.style.display = 'block';
+      current = 0;
+      renderQuestion();
+    };
+
+    document.getElementById('prevBtn').onclick = () => {
+      if (current > 0) current--;
+      renderQuestion();
+    };
+
+    document.getElementById('nextBtn').onclick = () => {
+      if (current < questions.length - 1) current++;
+      renderQuestion();
+    };
+
+    // Show questions section on page load
+    qaSection.style.display = 'block';
+    renderQuestion();
+  </script>
+</body>
+</html>

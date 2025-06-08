@@ -113,7 +113,6 @@
     // Read results from localStorage
     const result = JSON.parse(localStorage.getItem('stressResults') || '{}');
     const userAnswers = result.answers || [2, 3, 4, 3, 4, 2]; // fallback if not present
-    const stressDist = result.stressDist || { Low: 3, Medium: 8, High: 4 };
 
     if (!result.level) {
       document.getElementById('slides-root').innerHTML = `
@@ -165,52 +164,28 @@
             </div>
           `
         },
-        // {
-        //   title: "Recommendations",
-        //   content: `<div class="rec-list" style="font-size:22px;">
-        //     <span>${result.rec_icon || ''}</span> ${result.recommendation || ''}
-        //   </div>`
-        // },
-        // {
-        //   title: "Potential Effects of Stress",
-        //   content: `<div class="effects-list" style="font-size:22px;">
-        //     <span>${result.effect_icon || ''}</span> ${result.effect || ''}
-        //   </div>`
-        // },
-//         {
-//   title: "Recommendations",
-//   content: `<div class="rec-list" style="font-size:22px;">
-//     <span>${(result.recommendations && result.recommendations[0]?.icon) || ''}</span> ${(result.recommendations && result.recommendations[0]?.text) || ''}
-//   </div>`
-// },
-// {
-//   title: "Potential Effects of Stress",
-//   content: `<div class="effects-list" style="font-size:22px;">
-//     <span>${(result.effects && result.effects[0]?.icon) || ''}</span> ${(result.effects && result.effects[0]?.text) || ''}
-//   </div>`
-// },
-{
-  title: "Recommendations",
-  content: `<ul class="rec-list" style="font-size:22px;">
-    ${(result.recommendations || []).map(r => `<li>${r.icon} ${r.text}</li>`).join('')}
-  </ul>`
-},
-{
-  title: "Potential Effects of Stress",
-  content: `<ul class="effects-list" style="font-size:22px;">
-    ${(result.effects || []).map(e => `<li>${e.icon} ${e.text}</li>`).join('')}
-  </ul>`
-},
-{
-  title: "Recommended Resources",
-  content: `<ul class="rec-list" style="font-size:22px;">
-    ${(result.resources || []).map(r => 
-      `<li>${r.Icon || r.icon || ''} <b>${r.Title || r.title}</b> 
-      <a href="${r.Link || r.link}" target="_blank" style="color:#00e0ff;text-decoration:underline;">[${r.ResourceType || r.type}]</a>
-      <br><span style="font-size:16px;">${r.Description || r.description}</span></li>`
-    ).join('')}
-  </ul>`
-},
+        {
+          title: "Recommendations",
+          content: `<ul class="rec-list" style="font-size:22px;">
+            ${(result.recommendations || []).map(r => `<li>${r.rec_icon || r.icon || ''} ${r.recommendation || r.text}</li>`).join('')}
+          </ul>`
+        },
+        {
+          title: "Potential Effects of Stress",
+          content: `<ul class="effects-list" style="font-size:22px;">
+            ${(result.effects || []).map(e => `<li>${e.icon} ${e.text}</li>`).join('')}
+          </ul>`
+        },
+        {
+          title: "Recommended Resources",
+          content: `<ul class="rec-list" style="font-size:22px;">
+            ${(result.resources || []).map(r => 
+              `<li>${r.Icon || r.icon || ''} <b>${r.Title || r.title}</b> 
+              <a href="${r.Link || r.link}" target="_blank" style="color:#00e0ff;text-decoration:underline;">[${r.ResourceType || r.type}]</a>
+              <br><span style="font-size:16px;">${r.Description || r.description}</span></li>`
+            ).join('')}
+          </ul>`
+        },
         {
           title: "Takeaway",
           content: `<div style="font-size:22px;margin-bottom:20px;">
@@ -239,10 +214,8 @@
         slides.forEach((slide, i) => {
           slide.classList.toggle('active', i === index);
         });
-        // Hide "Next" on last slide, show on others
         nextBtn.style.display = (index === total - 1) ? 'none' : '';
         prevBtn.style.display = (index === 0) ? 'none' : '';
-        // Draw charts if on graph slides
         if (slides[index].querySelector('#stressChart')) drawChart();
       }
 
@@ -253,15 +226,12 @@
         if (current > 0) { current--; showSlide(current); }
       };
 
-      // Auto slide every 5 seconds (except on last slide)
       setInterval(() => {
         if (current < total - 1) { current++; showSlide(current); }
       }, 5000);
 
-      // Initial state
       showSlide(current);
 
-      // Draw Chart.js line chart
       function drawChart() {
         const ctx = document.getElementById('stressChart').getContext('2d');
         if (window.stressChartInstance) window.stressChartInstance.destroy();
@@ -309,9 +279,6 @@
           `Your last answer indicates "${result.level}" stress level.`;
       }
     }
-   
-
-// ... rest of your JS code ...
   </script>
 </body>
 </html>

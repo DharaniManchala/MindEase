@@ -1,0 +1,13 @@
+StressLevel,ResourceType,Title,Link,Description,Icon
+High,Book,"The Whole-Brain Child","https://www.amazon.com/dp/0553386697","Strategies to help families manage stress and build healthy relationships.","📚"
+High,Video,"How to Deal with Family Stress","https://www.youtube.com/watch?v=8QyVZrV3d3o","Practical tips for handling family-related stress.","🎥"
+High,Activity,"Family Communication Exercise","https://www.therapistaid.com/worksheets/family-communication-tips.pdf","Improve communication and reduce tension at home.","🗣️"
+
+Medium,Book,"Parenting from the Inside Out","https://www.amazon.com/dp/039916510X","Understanding yourself to improve family relationships.","📖"
+Medium,Video,"Healthy Family Boundaries","https://www.youtube.com/watch?v=1QJ1n6bT9a8","Learn about setting boundaries for less stress.","🎬"
+Medium,Activity,"Family Gratitude Jar","https://positivepsychology.com/gratitude-jar/","A fun way for families to share positive moments.","🍯"
+
+Low,Book,"The 7 Habits of Highly Effective Families","https://www.amazon.com/dp/0307440850","Habits for strong, happy, and resilient families.","📘"
+Low,Video,"Building Strong Family Relationships","https://www.youtube.com/watch?v=QJkYONqIYQM","How to keep your family bonds healthy and positive.","💡"
+Low,Activity,"Family Game Night","https://www.parents.com/fun/activities/family/family-game-night-ideas/","Enjoy quality time and reduce stress together.","🎲"
+
