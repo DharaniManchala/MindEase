@@ -1,144 +1,3 @@
-
-# from flask import Flask, request, jsonify
-# import joblib
-# import numpy as np
-# from flask_cors import CORS
-# import json
-# from datetime import datetime
-
-# app = Flask(__name__)
-# CORS(app)
-# import pandas as pd
-
-# resources_df = pd.read_csv('resources.csv')
-
-
-# def get_resources(level):
-#     filtered = resources_df[resources_df['StressLevel'] == level]
-#     resources = []
-#     type_counts = {"Book": 0, "Video": 0, "Activity": 0}
-#     max_per_type = 1
-
-#     for _, row in filtered.iterrows():
-#         rtype = row['ResourceType']
-#         if rtype in type_counts and type_counts[rtype] < max_per_type:
-#             resources.append({
-#                 "icon": row['Icon'],
-#                 "title": row['Title'],
-#                 "link": row['Link'],
-#                 "description": row['Description'],
-#                 "type": rtype
-#             })
-#             type_counts[rtype] += 1
-#         # Stop if we have one of each
-#         if all(count == max_per_type for count in type_counts.values()):
-#             break
-#     return resources
-
-# # Load your trained model (update the filename if needed)
-# model = joblib.load('stress_model.pkl')
-
-# def get_recommendations(level):
-#     if level == "High":
-#         return [
-#             {"icon": "💧", "text": "Take regular breaks and hydrate."},
-#             {"icon": "🧘", "text": "Practice deep breathing or meditation."},
-#             {"icon": "📅", "text": "Organize your study schedule."},
-#             {"icon": "🤝", "text": "Talk to a mentor or counselor."},
-#             {"icon": "🚶", "text": "Go for a short walk to clear your mind."}
-#         ]
-#     elif level == "Medium":
-#         return [
-#             {"icon": "📋", "text": "Make a to-do list for your tasks."},
-#             {"icon": "⏰", "text": "Set small, achievable goals."},
-#             {"icon": "🎵", "text": "Listen to relaxing music."},
-#             {"icon": "📞", "text": "Stay connected with friends."},
-#             {"icon": "🍎", "text": "Eat healthy snacks."}
-#         ]
-#     else:  # Low
-#         return [
-#             {"icon": "👍", "text": "Keep up the good work!"},
-#             {"icon": "🏃", "text": "Maintain your healthy habits."},
-#             {"icon": "📚", "text": "Share your strategies with peers."},
-#             {"icon": "🌳", "text": "Spend time outdoors."},
-#             {"icon": "😊", "text": "Celebrate your achievements."}
-#         ]
-
-# def get_effects(level):
-#     if level == "High":
-#         return [
-#             {"icon": "😫", "text": "May cause burnout or anxiety."},
-#             {"icon": "😴", "text": "Can affect sleep quality."},
-#             {"icon": "🤒", "text": "Weakens immune system."},
-#             {"icon": "📉", "text": "Reduces academic performance."},
-#             {"icon": "😔", "text": "Impacts mood and motivation."}
-#         ]
-#     elif level == "Medium":
-#         return [
-#             {"icon": "😕", "text": "Might feel distracted."},
-#             {"icon": "😐", "text": "Occasional tiredness."},
-#             {"icon": "📉", "text": "Slight drop in focus."},
-#             {"icon": "😟", "text": "Mild worry or stress."},
-#             {"icon": "🍫", "text": "Possible unhealthy snacking."}
-#         ]
-#     else:  # Low
-#         return [
-#             {"icon": "😃", "text": "You are managing stress well!"},
-#             {"icon": "💪", "text": "Good energy and focus."},
-#             {"icon": "🛌", "text": "Better sleep quality."},
-#             {"icon": "📈", "text": "Improved academic results."},
-#             {"icon": "😊", "text": "Positive mood and motivation."}
-#         ]
-
-# @app.route('/predict-stress', methods=['POST'])
-# def predict_stress():
-#     data = request.json
-#     answers = data.get('answers')  # Should be a list of numbers, e.g. [5,2,4,3,4,2]
-#     email = data.get('email')
-#     if not answers or len(answers) != 6:
-#         return jsonify({'error': 'Invalid input'}), 400
-
-#     # Predict stress level
-#     pred = model.predict([answers])[0]
-#     percent = int(np.mean(answers) / 5 * 100)
-#     score = int(np.mean(answers) * 2)  # Example: scale to 10
-
-#     recommendations = get_recommendations(pred)
-#     effects = get_effects(pred)
-#     resources = get_resources(pred)
-
-#     # Save email for high stress cases
-#     if pred == "High" and email:
-#         with open('high_stress_emails.json', 'a') as f:
-#             f.write(json.dumps({'email': email, 'date': str(datetime.now().date())}) + '\n')
-
-#     # Save latest prediction info to a file for frontend use
-#     latest_prediction_data = {
-#         "score": score,
-#         "percent": percent,
-#         "level": pred,
-#         "recommendations": recommendations,
-#         "effects": effects,
-#         "resources": resources,
-#         "answers": answers,
-#         "timestamp": str(datetime.now())
-#     }
-
-#     with open('latest_prediction.json', 'w') as f:
-#         json.dump(latest_prediction_data, f)
-
-#     return jsonify({
-#         "score": score,
-#         "percent": percent,
-#         "level": pred,
-#         "recommendations": recommendations,
-#         "effects": effects,
-#         "resources": resources,
-#         "answers": answers  # Optionally return answers for graphing
-#     })
-
-# if __name__ == '__main__':
-#     app.run(port=5001, debug=True)
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
@@ -153,19 +12,57 @@ CORS(app)
 # Load all resources and models at startup
 resources = {
     "academic": pd.read_csv('resources.csv'),
-    "family": pd.read_csv('famresources.csv')
+    "family": pd.read_csv('famresources.csv'),
+    "illness": pd.read_csv('illnessresources.csv'),
+    "work": pd.read_csv('workstressresources.csv'),
+    "relationship": pd.read_csv('relationresources.csv'),
+    "timemanagement": pd.read_csv('timemanagementresources.csv'),
+    "other": pd.read_csv('otherresources.csv')
 }
 models = {
     "academic": joblib.load('stress_model.pkl'),
-    "family": joblib.load('family_stress_model.pkl')
+    "family": joblib.load('family_stress_model.pkl'),
+    "illness": joblib.load('illness_stress_model.pkl'),
+    "work": joblib.load('work_stress_model.pkl'),
+    "relationship": joblib.load('relationship_stress_model.pkl'),
+    "timemanagement": joblib.load('timemanagement_stress_model.pkl'),
+    "other": joblib.load('other_stress_model.pkl')
 }
 rec_files = {
     "academic": 'recommandations.csv',
-    "family": 'famrecommendation.csv'
+    "family": 'famrecommendation.csv',
+    "illness": 'illnessrecommendation.csv',
+    "work": 'workstressrecommendation.csv',
+    "relationship": 'relationshiprecommendation.csv',
+    "timemanagement": 'timemanagementworkloadrecommendation.csv',
+    "other": 'otherrecommendation.csv'
 }
 
 def get_resources(level, stress_type):
     df = resources[stress_type]
+    # Robust column mapping
+    colmap = {
+        'type': None,
+        'title': None,
+        'link': None,
+        'description': None,
+        'icon': None
+    }
+    for col in df.columns:
+        lcol = col.lower()
+        if 'type' in lcol and not colmap['type']:
+            colmap['type'] = col
+        elif 'title' in lcol and not colmap['title']:
+            colmap['title'] = col
+        elif 'link' in lcol and not colmap['link']:
+            colmap['link'] = col
+        elif 'desc' in lcol and not colmap['description']:
+            colmap['description'] = col
+        elif 'icon' in lcol and not colmap['icon']:
+            colmap['icon'] = col
+    for k in colmap:
+        if not colmap[k]:
+            colmap[k] = k.capitalize() if k != 'icon' else 'Icon'
     if 'StressLevel' in df.columns:
         filtered = df[df['StressLevel'] == level]
     else:
@@ -174,13 +71,13 @@ def get_resources(level, stress_type):
     type_counts = {"Book": 0, "Video": 0, "Activity": 0}
     max_per_type = 1
     for _, row in filtered.iterrows():
-        rtype = row['ResourceType']
+        rtype = row.get(colmap['type'], '')
         if rtype in type_counts and type_counts[rtype] < max_per_type:
             resources_list.append({
-                "icon": row['Icon'],
-                "title": row['Title'],
-                "link": row['Link'],
-                "description": row['Description'],
+                "icon": row.get(colmap['icon'], ''),
+                "title": row.get(colmap['title'], ''),
+                "link": row.get(colmap['link'], ''),
+                "description": row.get(colmap['description'], ''),
                 "type": rtype
             })
             type_counts[rtype] += 1
@@ -216,18 +113,179 @@ def predict_stress():
     email = data.get('email')
     stress_type = data.get('type', 'academic').lower()  # "academic" or "family"
 
-    # Validate
+    # Map expected answer length for each type
+    expected_len_map = {
+        "academic": 6,
+        "family": 5,
+        "illness": 6,
+        "work": 6,
+        "relationship": 6,
+        "timemanagement": 6,
+        "other": 6
+    }
+    expected_len = expected_len_map.get(stress_type, 6)
     if stress_type not in models:
         return jsonify({'error': 'Invalid stress type'}), 400
-    expected_len = 6 if stress_type == "academic" else 5
     if not answers or len(answers) != expected_len:
         return jsonify({'error': f'Invalid input: expected {expected_len} answers'}), 400
 
+    # Robust mapping for all domains except academic/family
+    mapping_options = {
+        # 'illness': [
+        #     ['Yes', 'No'],
+        #     ['Never', 'Sometimes', 'Often', 'Always'],
+        #     ['Not at all', 'Slightly', 'Moderately', 'Severely'],
+        #     ['Yes', 'No', 'Occasionally'],
+        #     ['Yes', 'No', 'Somewhat'],
+        #     ['Very hopeful', 'Neutral', 'Not hopeful']
+        # ],
+            'illness': [
+        ['No', 'Somewhat', 'Yes'],
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],
+        ['Not at all', 'Slightly', 'Moderately', 'Quite a bit', 'Severely'],
+        ['Yes', 'Occasionally', 'No'],
+        ['Yes', 'Somewhat', 'No'],
+        ['Very hopeful', 'Neutral', 'Not hopeful']
+    ],
+
+           'work': [
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],      # Q1
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],      # Q2
+        ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly'],# Q3
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],      # Q4
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],      # Q5
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']       # Q6
+    ],
+
+    
+       
+            'relationship': [
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],           # Q1: Never = low stress, Always = high stress
+        ['Confident', 'Neutral', 'Anxious', 'Very stressed'],          # Q2: Confident = low stress, Very stressed = high stress
+        ['Low', 'Moderate', 'High'],                                   # Q3: Low = low stress, High = high stress
+        ['Never', 'Occasionally', 'Sometimes', 'Frequently', 'Always'],# Q4: Never = low stress, Always = high stress
+        ['Supported', 'Yes', 'No'],                                   # Q5: Supported = low stress, No = high stress
+        ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly']      # Q6: Very well = low stress, Very poorly = high stress
+    ],
+
+    
+            'timemanagement': [
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],           # Q1
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],           # Q2
+        ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly'],     # Q3
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],           # Q4
+        ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],           # Q5
+        ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly']      # Q6
+    ],
+        'other': [
+        ['Never', 'Sometimes', 'Often', 'Always'],
+        ['Yes', 'No', 'Prefer not to say'],
+        ['Never', 'Occasionally', 'Frequently', 'Almost daily'],
+        ['No', 'Sometimes', 'Often', 'Always'],
+        ['Not at all', 'A little', 'Significantly', 'Extremely'],
+        ['Yes', 'No', 'Maybe']
+    ]
+    }
+    mapping_mapq = {
+        
+    'illness': [
+        {'No':1, 'Somewhat':3, 'Yes':5},
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},
+        {'Not at all':1, 'Slightly':2, 'Moderately':3, 'Quite a bit':4, 'Severely':5},
+        {'Yes':1, 'Occasionally':3, 'No':5},
+        {'Yes':1, 'Somewhat':3, 'No':5},
+        {'Very hopeful':1, 'Neutral':3, 'Not hopeful':5}
+    ],
+    'work': [
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q1
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q2
+        {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5},        # Q3
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q4
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q5
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}               # Q6
+    ],
+        'relationship': [
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},                # Q1
+        {'Confident':1, 'Neutral':3, 'Anxious':4, 'Very stressed':5},                 # Q2
+        {'Low':1, 'Moderate':3, 'High':5},                                            # Q3
+        {'Never':1, 'Occasionally':2, 'Sometimes':3, 'Frequently':4, 'Always':5},     # Q4
+        {'Supported':1, 'Yes':3, 'No':5},                                             # Q5
+        {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5}           # Q6
+    ],
+            'timemanagement': [
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q1
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q2
+        {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5},        # Q3
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q4
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},              # Q5
+        {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5}         # Q6
+    ],
+            'other': [
+        {'Never':1, 'Sometimes':2, 'Often':3, 'Always':5},                        # Q1
+        {'Yes':1, 'No':3, 'Prefer not to say':5},                                 # Q2
+        {'Never':1, 'Occasionally':2, 'Frequently':3, 'Almost daily':5},          # Q3
+        {'No':1, 'Sometimes':2, 'Often':3, 'Always':5},                           # Q4
+        {'Not at all':1, 'A little':2, 'Significantly':3, 'Extremely':5},         # Q5
+        {'Yes':1, 'No':3, 'Maybe':5}                                              # Q6
+    ]
+    }
+    # Map family answers to numbers before prediction
+    if stress_type == 'family':
+        family_map_q = [
+            {'Always':1, 'Often':2, 'Sometimes':3, 'Rarely':4, 'Never':5},      # Q1: More support = lower stress
+            {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},      # Q2: More disturbance = higher stress
+            {'Yes':1, 'Not sure':3, 'No':5},                                    # Q3: Yes = low stress, No = high stress
+            {'No':1, 'Not sure':3, 'Yes':5},                                    # Q4: No = low stress, Yes = high stress
+            {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5}         # Q5: Very well = low stress, Not at all = high stress
+        ]
+        answers_text = data.get('answers_text', [])
+        if answers_text and len(answers_text) == 5:
+            answers_for_model = [family_map_q[i].get(answers_text[i], 1) for i in range(5)]
+        else:
+            # fallback: try to map numbers to options (should not happen if frontend is correct)
+            options = [
+                ['Always', 'Often', 'Sometimes', 'Rarely', 'Never'],
+                ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'],
+                ['Yes', 'Not sure', 'No'],
+                ['No', 'Not sure', 'Yes'],
+                ['Very well', 'Somewhat', 'Not much', 'Not at all']
+            ]
+            answers_for_model = [
+                family_map_q[i].get(options[i][answers[i]-1], 1) if 1 <= answers[i] <= len(options[i]) else 1
+                for i in range(5)
+            ]
+    else:
+        if stress_type in mapping_options and all(isinstance(a, int) for a in answers):
+            options = mapping_options[stress_type]
+            map_q = mapping_mapq[stress_type]
+            # Use answers_text from frontend if present and valid
+            answers_text = data.get('answers_text')
+            if answers_text and len(answers_text) == len(answers):
+                # Use provided text directly
+                answers_for_model = [map_q[i].get(answers_text[i], 1) for i in range(len(answers))]
+            else:
+                # Fallback: derive text from indices, but handle out-of-range safely
+                answers_text = []
+                for i, a in enumerate(answers):
+                    if 1 <= a <= len(options[i]):
+                        answers_text.append(options[i][a-1])
+                    else:
+                        answers_text.append(list(map_q[i].keys())[0])  # fallback to first option
+                answers_for_model = [map_q[i].get(answers_text[i], 1) for i in range(len(answers))]
+        else:
+            answers_for_model = answers
+
     # Predict
     model = models[stress_type]
-    pred = model.predict([answers])[0]
-    percent = int(np.mean(answers) / 5 * 100)
-    score = int(np.mean(answers) * 2)
+    # For family, use DataFrame with correct feature names as used in training (Q1n, Q2n, ...), else just a list
+    if stress_type == 'family':
+        family_feature_names = ['Q1n', 'Q2n', 'Q3n', 'Q4n', 'Q5n']
+        X_input = pd.DataFrame([answers_for_model], columns=family_feature_names)
+        pred = model.predict(X_input)[0]
+    else:
+        pred = model.predict([answers_for_model])[0]
+    percent = int(np.mean(answers_for_model) / 5 * 100)
+    score = int(np.mean(answers_for_model) * 2)
 
     # Recommendation and resources
     recommendations = [get_recommendation(data.get('answers_text', []), stress_type)]
@@ -250,7 +308,17 @@ def predict_stress():
         "answers": answers,
         "timestamp": str(datetime.now())
     }
-    latest_json = 'latest_prediction.json' if stress_type == "academic" else 'latest_family_prediction.json'
+    # Save to a unique file for each stress type for debugging, but not used by frontend
+    latest_json_map = {
+        "academic": 'latest_prediction.json',
+        "family": 'latest_family_prediction.json',
+        "illness": 'latest_illness_prediction.json',
+        "work": 'latest_work_prediction.json',
+        "relationship": 'latest_relationship_prediction.json',
+        "timemanagement": 'latest_timemanagement_prediction.json',
+        "other": 'latest_other_prediction.json'
+    }
+    latest_json = latest_json_map.get(stress_type, 'latest_prediction.json')
     with open(latest_json, 'w') as f:
         json.dump(latest_prediction_data, f)
 

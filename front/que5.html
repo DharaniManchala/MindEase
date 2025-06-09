@@ -134,12 +134,23 @@
   </div>
 
   <script>
+    // Consistent, logical mapping: 1 = lowest stress, 5 = highest stress for all
     const questions = [
-      { q: 'Do you feel emotionally distant from your partner or close ones?', options: ['Yes', 'No', 'Sometimes'] },
-      { q: 'Do small arguments often escalate into major fights?', options: ['Yes', 'Rarely', 'No'] },
-      { q: 'Do you feel your partner doesn’t understand your emotions?', options: ['Yes', 'No', 'Sometimes'] },
-      { q: 'Have trust issues affected your relationship?', options: ['Yes', 'No'] },
-      { q: 'Do you feel insecure or anxious in your relationship?', options: ['Often', 'Sometimes', 'Never'] }
+      { q: 'How often do you feel emotionally distant from your partner or close ones?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] },
+      { q: 'How do you feel about your emotional security in the relationship?', options: ['Confident', 'Neutral', 'Anxious', 'Very stressed'] },
+      { q: 'How would you rate the level of understanding from your partner?', options: ['Low', 'Moderate', 'High'] },
+      { q: 'How often do you and your partner have disagreements?', options: ['Never', 'Occasionally', 'Sometimes', 'Frequently', 'Always'] },
+      { q: 'Do you feel supported in your relationship?', options: ['Supported', 'Yes', 'No'] },
+      { q: 'How well do you and your partner communicate?', options: ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly'] }
+    ];
+
+    const mapping = [
+      {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},                // Q1
+      {'Confident':1, 'Neutral':3, 'Anxious':4, 'Very stressed':5},                 // Q2
+      {'Low':1, 'Moderate':3, 'High':5},                                            // Q3
+      {'Never':1, 'Occasionally':2, 'Sometimes':3, 'Frequently':4, 'Always':5},     // Q4
+      {'Supported':1, 'Yes':3, 'No':5},                                             // Q5
+      {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5}           // Q6
     ];
 
     let current = 0;
@@ -164,6 +175,7 @@
           radio.checked = true;
         }
       });
+      updateButtonLabel();
     }
 
     document.getElementById('prevBtn').onclick = () => {
@@ -172,16 +184,54 @@
     };
 
     document.getElementById('nextBtn').onclick = () => {
-      if (current < questions.length - 1) current++;
-      renderQuestion();
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else if (current === questions.length - 1) {
+        // On submit, collect answers and send to backend
+        if (selected.includes(null)) {
+          alert('Please answer all questions before submitting.');
+          return;
+        }
+        // Map selected indices to answer text and mapped number
+        const answers_text = selected.map((i, idx) => questions[idx].options[i]);
+        const answers = answers_text.map((ans, i) => mapping[i][ans]);
+        // Prepare payload
+        const payload = {
+          answers,
+          answers_text,
+          type: 'relationship'
+        };
+        fetch('http://localhost:5001/predict-stress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem('stressResults', JSON.stringify(data));
+          window.location.href = 'results.html';
+        })
+        .catch(err => {
+          alert('Submission failed. Please try again.');
+        });
+      }
     };
 
-    // Modified Back button handler - clears questions & options instead of rendering
+    // Add logic to change 'Next' to 'Submit' on last question
+    function updateButtonLabel() {
+      const nextBtn = document.getElementById('nextBtn');
+      if (current === questions.length - 1) {
+        nextBtn.textContent = 'Submit';
+      } else {
+        nextBtn.textContent = 'Next';
+      }
+    }
+
+    // Update back button to always go to sidebar.html
     document.getElementById('backBtn').onclick = (e) => {
       e.preventDefault();
-      current = 0;
-      questionBox.textContent = '';
-      optionsBox.innerHTML = '';
+      window.location.href = 'sidebar.html';
     };
 
     document.getElementById('showQuestionsIcon').onclick = () => {

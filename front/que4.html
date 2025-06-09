@@ -146,85 +146,132 @@
 
     <div id="ask-anything" style="margin-top: 24px; font-size: 22px; color: #FFB400; display:none;">Ask anything about work stress below!</div>
   </div>
-
   <script>
-    const questions = [
-      { q: 'Do you feel overwhelmed by your current workload or tasks?', options: ['Never', 'Sometimes', 'Often', 'Always'] },
-      { q: 'Are you facing tight deadlines or unrealistic expectations at work/school?', options: ['Yes', 'No', 'Occasionally'] },
-      { q: 'How well do you manage the balance between work and personal life?', options: ['Very well', 'Fair', 'Poor', 'Very Poor'] },
-      { q: 'Do you feel supported by your colleagues, teachers, or supervisors?', options: ['Yes', 'No', 'Partially'] },
-      { q: 'How often do you feel anxious, stressed, or burnt out due to work pressure?', options: ['Never', 'Occasionally', 'Often', 'Very Often'] },
-      { q: 'Have you considered quitting or avoiding tasks due to overwhelming stress?', options: ['Yes', 'No', 'Sometimes'] }
-    ];
+  // Logically reworded questions and options for work domain (academic-style mapping)
+const questions = [
+  { q: 'How often do you feel overwhelmed by your workload or tasks?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] }, // Always = high stress
+  { q: 'How often do you face tight deadlines or unrealistic expectations?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] },
+  { q: 'How well do you manage the balance between work and personal life?', options: ['Very well', 'Well', 'Neutral', 'Poorly', 'Very poorly'] }, // Very poorly = high stress
+  { q: 'How often do you feel unsupported by colleagues, teachers, or supervisors?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] }, // Always = high stress
+  { q: 'How often do you feel anxious, stressed, or burnt out due to work pressure?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] },
+  { q: 'How often have you considered quitting or avoiding tasks due to stress?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] }
+];
 
-    let current = 0;
-    let selected = Array(questions.length).fill(null);
-    const questionBox = document.getElementById('question-box');
-    const optionsBox = document.getElementById('options-box');
-    const askAnything = document.getElementById('ask-anything');
+// Consistent mapping: 1 = lowest stress, 5 = highest stress for all
+const mapping = [
+  {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q1
+  {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2
+  {'Very well':1, 'Well':2, 'Neutral':3, 'Poorly':4, 'Very poorly':5}, // Q3
+  {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q4
+  {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q5
+  {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}  // Q6
+];
 
-    function renderQuestion() {
-      if (current < 0 || current >= questions.length) {
-        questionBox.style.display = 'none';
-        optionsBox.style.display = 'none';
-        document.getElementById('no-questions').style.display = 'block';
-        askAnything.style.display = 'none';
-        document.querySelector('.buttons').style.display = 'none';
-        return;
-      }
+  let current = 0;
+  let selected = Array(questions.length).fill(null);
+  const questionBox = document.getElementById('question-box');
+  const optionsBox = document.getElementById('options-box');
+  const askAnything = document.getElementById('ask-anything');
 
-      questionBox.style.display = '';
-      optionsBox.style.display = '';
-      document.getElementById('no-questions').style.display = 'none';
-      document.querySelector('.buttons').style.display = '';
-
-      const q = questions[current];
-      questionBox.innerHTML = q.q;
-      optionsBox.innerHTML = q.options.map((opt, i) => 
-        `<label style="display:flex;align-items:center;font-size:18px;font-weight:500;cursor:pointer;gap:6px;margin-bottom:2px;">
-          <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} style="margin-right:8px;transform:scale(1.15);vertical-align:middle;" />
-          <span style="vertical-align:middle;">${opt}</span>
-        </label>`
-      ).join('');
-
-      askAnything.style.display = (current === questions.length - 1) ? 'block' : 'none';
-
-      Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
-        radio.onclick = () => {
-          selected[current] = i;
-        };
-      });
+  function renderQuestion() {
+    if (current < 0 || current >= questions.length) {
+      questionBox.style.display = 'none';
+      optionsBox.style.display = 'none';
+      document.getElementById('no-questions').style.display = 'block';
+      askAnything.style.display = 'none';
+      document.querySelector('.buttons').style.display = 'none';
+      return;
     }
 
-    document.getElementById('prevBtn').onclick = function() {
-      if (current > 0) {
-        current--;
-        renderQuestion();
-      }
-    };
+    questionBox.style.display = '';
+    optionsBox.style.display = '';
+    document.getElementById('no-questions').style.display = 'none';
+    document.querySelector('.buttons').style.display = '';
 
-    document.getElementById('nextBtn').onclick = function() {
-      if (current < questions.length - 1) {
-        current++;
-        renderQuestion();
-      }
-    };
+    const q = questions[current];
+    questionBox.innerHTML = q.q;
+    optionsBox.innerHTML = q.options.map((opt, i) => 
+      `<label style="display:flex;align-items:center;font-size:18px;font-weight:500;cursor:pointer;gap:6px;margin-bottom:2px;">
+        <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} style="margin-right:8px;transform:scale(1.15);vertical-align:middle;" />
+        <span style="vertical-align:middle;">${opt}</span>
+      </label>`
+    ).join('');
 
-    document.getElementById('backBtn').onclick = function(e) {
-      e.preventDefault();
-      current = -1;
+    askAnything.style.display = (current === questions.length - 1) ? 'block' : 'none';
+
+    Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
+      radio.onclick = () => {
+        selected[current] = i;
+      };
+    });
+    updateButtonLabel();
+  }
+
+  function updateButtonLabel() {
+    const nextBtn = document.getElementById('nextBtn');
+    if (current === questions.length - 1) {
+      nextBtn.textContent = 'Submit';
+    } else {
+      nextBtn.textContent = 'Next';
+    }
+  }
+
+  document.getElementById('prevBtn').onclick = function() {
+    if (current > 0) {
+      current--;
       renderQuestion();
-    };
+    }
+  };
 
-    document.getElementById('showQuestionsIcon').onclick = function(e) {
-      e.preventDefault();
-      if (current < 0) {
-        current = 0;
-        renderQuestion();
+  document.getElementById('nextBtn').onclick = function() {
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    } else if (current === questions.length - 1) {
+      if (selected.includes(null)) {
+        alert('Please answer all questions before submitting.');
+        return;
       }
-    };
+      // Map selected indices to answer text and numbers
+      const answers_text = selected.map((i, idx) => questions[idx].options[i]);
+      const answers_num = answers_text.map((ans, i) => mapping[i][ans]);
+      const payload = {
+        answers: answers_num,
+        answers_text: answers_text,
+        type: 'work'
+      };
+      fetch('http://localhost:5001/predict-stress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem('stressResults', JSON.stringify(data));
+        window.location.href = 'results.html';
+      })
+      .catch(err => {
+        alert('Submission failed. Please try again.');
+      });
+    }
+  };
 
-    renderQuestion();
-  </script>
+  document.getElementById('backBtn').onclick = function(e) {
+    e.preventDefault();
+    window.location.href = 'sidebar.html';
+  };
+
+  document.getElementById('showQuestionsIcon').onclick = function(e) {
+    e.preventDefault();
+    if (current < 0) {
+      current = 0;
+      renderQuestion();
+    }
+  };
+
+  renderQuestion();
+</script>
+
+  
 </body>
 </html>

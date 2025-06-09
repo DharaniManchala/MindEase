@@ -136,15 +136,15 @@
     <div id="ask-anything" style="margin-top: 24px; font-size: 22px; color: #FFB400; display:none;">Ask anything about illness issues below!</div>
   </div>
 
-  <script>
+  <!-- <script>
     const questions = [
-      { q: 'Are you currently experiencing a physical or mental health condition?', options: ['Yes', 'No'] },
-      { q: 'How frequently do health issues interfere with your daily activities?', options: ['Never', 'Sometimes', 'Often', 'Always'] },
-      { q: 'Do you feel emotionally low due to your health condition?', options: ['Not at all', 'Slightly', 'Moderately', 'Severely'] },
-      { q: 'Are you receiving regular treatment or support for your health issue?', options: ['Yes', 'No', 'Occasionally'] },
-      { q: 'Do you feel that people around you understand and support your condition?', options: ['Yes', 'No', 'Somewhat'] },
-      { q: 'How hopeful are you about your recovery or ability to manage the condition?', options: ['Very hopeful', 'Neutral', 'Not hopeful'] }
-    ];
+  { q: 'Are you currently experiencing a physical or mental health condition?', options: ['No', 'Somewhat', 'Yes'] },
+  { q: 'How frequently do health issues interfere with your daily activities?', options: ['Never', 'Sometimes', 'Often', 'Always'] },
+  { q: 'Do you feel emotionally low due to your health condition?', options: ['Not at all', 'Slightly', 'Moderately', 'Severely'] },
+  { q: 'Are you receiving regular treatment or support for your health issue?', options: ['Yes', 'Occasionally', 'No'] },
+  { q: 'Do you feel that people around you understand and support your condition?', options: ['Yes', 'Somewhat', 'No'] },
+  { q: 'How hopeful are you about your recovery or ability to manage the condition?', options: ['Very hopeful', 'Neutral', 'Not hopeful'] }
+];
 
     let current = 0;
     let selected = Array(questions.length).fill(null);
@@ -183,6 +183,7 @@
           selected[current] = i;
         };
       });
+      updateButtonLabel();
     }
 
     document.getElementById('prevBtn').onclick = function() {
@@ -196,8 +197,51 @@
       if (current < questions.length - 1) {
         current++;
         renderQuestion();
+      } else if (current === questions.length - 1) {
+        // On submit, collect answers and send to backend
+        if (selected.includes(null)) {
+          alert('Please answer all questions before submitting.');
+          return;
+        }
+        // Map selected indices to answer values (1-based)
+        const answers = selected.map(i => i + 1);
+        // Optionally, collect answer text for recommendations
+        const answers_text = selected.map((i, idx) => questions[idx].options[i]);
+        // Debug: log what is being sent to backend
+        console.log('Submitting illness answers:', answers, answers_text);
+        // Prepare payload
+        const payload = {
+          answers,
+          answers_text, // <-- This line ensures backend gets the correct text
+          type: 'illness'
+        };
+        fetch('http://localhost:5001/predict-stress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem('stressResults', JSON.stringify(data));
+          window.location.href = 'results.html';
+        })
+        .catch(err => {
+          alert('Submission failed. Please try again.');
+        });
       }
     };
+
+    function updateButtonLabel() {
+      const nextBtn = document.getElementById('nextBtn');
+      if (current === questions.length - 1) {
+        nextBtn.textContent = 'Submit';
+        // Do NOT set a new onclick here; let the main handler handle submission
+      } else {
+        nextBtn.textContent = 'Next';
+        // Do NOT set a new onclick here; let the main handler handle advancing
+      }
+    }
+
     document.getElementById('backBtn').onclick = function(e) {
   e.preventDefault();
   window.location.href = 'sidebar.html'; // or the correct path to your sidebar
@@ -217,7 +261,137 @@
       }
     };
 
-    renderQuestion();
-  </script>
+    renderQuestion(); -->
+    <script>
+  // Logically reworded questions and options for illness domain
+  const questions = [
+    { q: 'Are you currently experiencing a physical or mental health condition?', options: ['No', 'Somewhat', 'Yes'] }, // No = low stress
+    { q: 'How frequently do health issues interfere with your daily activities?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] }, // Never = low stress
+    { q: 'Do you feel emotionally low due to your health condition?', options: ['Not at all', 'Slightly', 'Moderately', 'Quite a bit', 'Severely'] }, // Not at all = low stress
+    { q: 'Are you receiving regular treatment or support for your health issue?', options: ['Yes', 'Occasionally', 'No'] }, // Yes = low stress
+    { q: 'Do you feel that people around you understand and support your condition?', options: ['Yes', 'Somewhat', 'No'] }, // Yes = low stress
+    { q: 'How hopeful are you about your recovery or ability to manage the condition?', options: ['Very hopeful', 'Neutral', 'Not hopeful'] } // Very hopeful = low stress
+  ];
+
+  // Consistent mapping: 1 = lowest stress, 5 = highest stress for all
+  const mapping = [
+    {'No':1, 'Somewhat':3, 'Yes':5}, // Q1: No illness = low stress, Yes = high stress
+    {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2: Never interferes = low stress, Always = high stress
+    {'Not at all':1, 'Slightly':2, 'Moderately':3, 'Quite a bit':4, 'Severely':5}, // Q3: Not at all = low stress, Severely = high stress
+    {'Yes':1, 'Occasionally':3, 'No':5}, // Q4: Yes = low stress, No = high stress
+    {'Yes':1, 'Somewhat':3, 'No':5}, // Q5: Yes = low stress, No = high stress
+    {'Very hopeful':1, 'Neutral':3, 'Not hopeful':5} // Q6: Very hopeful = low stress, Not hopeful = high stress
+  ];
+
+  let current = 0;
+  let selected = Array(questions.length).fill(null);
+  const questionBox = document.getElementById('question-box');
+  const optionsBox = document.getElementById('options-box');
+  const askAnything = document.getElementById('ask-anything');
+
+  function renderQuestion() {
+    if (current < 0 || current >= questions.length) {
+      questionBox.style.display = 'none';
+      optionsBox.style.display = 'none';
+      document.getElementById('no-questions').style.display = 'block';
+      askAnything.style.display = 'none';
+      document.querySelector('.buttons').style.display = 'none';
+      return;
+    }
+
+    questionBox.style.display = '';
+    optionsBox.style.display = '';
+    document.getElementById('no-questions').style.display = 'none';
+    document.querySelector('.buttons').style.display = '';
+
+    const q = questions[current];
+    questionBox.innerHTML = q.q;
+    optionsBox.innerHTML = q.options.map((opt, i) => 
+      `<label style="display:flex;align-items:center;font-size:18px;font-weight:500;cursor:pointer;gap:6px;margin-bottom:2px;">
+        <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} style="margin-right:8px;transform:scale(1.15);vertical-align:middle;" />
+        <span style="vertical-align:middle;">${opt}</span>
+      </label>`
+    ).join('');
+
+    askAnything.style.display = (current === questions.length - 1) ? 'block' : 'none';
+
+    Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
+      radio.onclick = () => {
+        selected[current] = i;
+      };
+    });
+    updateButtonLabel();
+  }
+
+  document.getElementById('prevBtn').onclick = function() {
+    if (current > 0) {
+      current--;
+      renderQuestion();
+    }
+  };
+
+  document.getElementById('nextBtn').onclick = function() {
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    } else if (current === questions.length - 1) {
+      // On submit, collect answers and send to backend
+      if (selected.includes(null)) {
+        alert('Please answer all questions before submitting.');
+        return;
+      }
+      // Map selected indices to answer text
+      const answers = questions.map((q, i) => q.options[selected[i]]);
+      const answers_num = answers.map((ans, i) => mapping[i][ans]);
+      const answers_text = answers;
+      // Debug: log what is being sent to backend
+      console.log('Submitting illness answers:', answers_num, answers_text);
+      // Prepare payload
+      const payload = {
+        answers: answers_num,
+        answers_text: answers_text,
+        type: 'illness'
+      };
+      fetch('http://localhost:5001/predict-stress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem('stressResults', JSON.stringify(data));
+        window.location.href = 'results.html';
+      })
+      .catch(err => {
+        alert('Submission failed. Please try again.');
+      });
+    }
+  };
+
+  function updateButtonLabel() {
+    const nextBtn = document.getElementById('nextBtn');
+    if (current === questions.length - 1) {
+      nextBtn.textContent = 'Submit';
+    } else {
+      nextBtn.textContent = 'Next';
+    }
+  }
+
+  document.getElementById('backBtn').onclick = function(e) {
+    e.preventDefault();
+    window.location.href = 'sidebar.html';
+  };
+
+  document.getElementById('showQuestionsIcon').onclick = function(e) {
+    e.preventDefault();
+    if (current < 0) {
+      current = 0;
+      renderQuestion();
+    }
+  };
+
+  renderQuestion();
+</script>
+  
 </body>
 </html>

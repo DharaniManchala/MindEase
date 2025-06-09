@@ -1,232 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Family Issues</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, sans-serif;
-    }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
-
-    body {
-      background: url('bindu.jpg') no-repeat center center/cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .back {
-      position: absolute;
-      top: 30px;
-      left: 20px;
-      font-size: 22px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .question-content {
-      width: 100%;
-      max-width: 700px;
-      padding: 40px 30px;
-      text-align: center;
-      color: white;
-      background: none;
-      box-shadow: none;
-    }
-
-    .icon {
-      font-size: 40px;
-      margin-bottom: 20px;
-      display: block;
-      cursor: pointer;
-      width: 80px;
-      height: 80px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    h2 {
-      font-size: 32px;
-      letter-spacing: 1px;
-      margin-bottom: 30px;
-      font-weight: bold;
-    }
-
-    p {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 40px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .btn {
-      flex: 1;
-      max-width: 180px;
-      padding: 18px 0;
-      background-color: #001133;
-      border: none;
-      color: white;
-      font-size: 22px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      font-weight: 600;
-    }
-
-    .btn:hover {
-      background-color: #002255;
-    }
-
-    .option-btn {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 18px 0;
-      font-size: 22px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(90deg, #001133 60%, #003366 100%);
-      color: #fff;
-      transition: background 0.2s;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .option-btn:hover {
-      background: linear-gradient(90deg, #002255 60%, #004488 100%);
-    }
-  </style>
-</head>
-<body>
-  
-  <a href="#" class="back" id="backBtn">&larr; Back</a>
-  <a href="#" class="btn" id="showQuestionsBtn" style="display:none;position:absolute;top:30px;right:30px;z-index:2;background:#FFB400;color:#001133;max-width:unset;width:auto;padding:10px 24px;font-size:20px;font-weight:700;">Family Issues Questions</a>
-
- 
-  <div class="question-content">
-    <span class="icon" aria-label="Family" role="img" id="showQuestionsIcon" >
-     
-      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Family Logo">
-        
-        <circle cx="40" cy="40" r="38" fill="#FFF8F0" stroke="#663300" stroke-width="2"/>
-
-        
-        <circle cx="24" cy="28" r="6" fill="#FFB347"/>
-        <rect x="21" y="34" width="6" height="20" rx="3" fill="#FFB347"/>
-
-       
-        <circle cx="56" cy="28" r="6" fill="#FF6F61"/>
-        <rect x="53" y="34" width="6" height="20" rx="3" fill="#FF6F61"/>
-
-
-        <circle cx="40" cy="36" r="5" fill="#FFD700"/>
-        <rect x="38" y="42" width="4" height="12" rx="2" fill="#FFD700"/>
-
-        <
-        <path d="M 22 50 Q 40 62 58 50" stroke="#AA4400" stroke-width="2" fill="none" opacity="0.7"/>
-        <path d="M 26 52 Q 40 64 54 52" stroke="#FF9900" stroke-width="1.5" fill="none" opacity="0.4"/>
-
-        
-        <ellipse cx="40" cy="70" rx="24" ry="3" fill="#DDAA77" opacity="0.5"/>
-      </svg>
-    </span>
-    <h2>FAMILY ISSUES</h2>
-    <div id="question-box" style="text-align:left; font-size: 26px; font-weight: 500; margin: 0 auto 10px auto; max-width: 700px; line-height: 1.4; color: #fff; min-height: 60px;"></div>
-    <form id="options-box" style="margin-bottom: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px;"></form>
-    <div id="no-questions" style="display:none; color:#fff; font-size:24px; font-weight:500; margin: 40px 0 20px 0; text-align:center;">No questions to display.</div>
-    <div class="buttons" style="margin-top: 0;">
-      <button class="btn" id="prevBtn" type="button">Previous</button>
-      <button class="btn" id="nextBtn" type="button">Next</button>
-    </div>
-    <div id="ask-anything" style="margin-top: 24px; font-size: 22px; color: #FFB400; display:none;">Ask anything about family issues below!</div>
-  </div>
-  <script>
-    const questions = [
-      { q: 'Do you feel emotionally supported by your family?', options: ['Always', 'Sometimes', 'Rarely', 'Never'] },
-      { q: 'How often do family arguments affect your mental peace?', options: ['Never', 'Occasionally', 'Often', 'Always'] },
-      { q: 'Do you feel safe and comfortable expressing your thoughts at home?', options: ['Yes', 'Sometimes', 'No'] },
-      { q: 'Is there any ongoing tension or conflict in your family affecting you?', options: ['Yes', 'No', 'Not sure'] },
-      { q: 'How well do you think your family understands your academic/personal stress?', options: ['Very well', 'Somewhat', 'Not much', 'Not at all'] }
-    ];
-    let current = 0;
-    let selected = Array(questions.length).fill(null);
-    const questionBox = document.getElementById('question-box');
-    const optionsBox = document.getElementById('options-box');
-    const askAnything = document.getElementById('ask-anything');
-    function renderQuestion() {
-      if (current < 0 || current >= questions.length) {
-        questionBox.style.display = 'none';
-        optionsBox.style.display = 'none';
-        document.getElementById('no-questions').style.display = 'block';
-        askAnything.style.display = 'none';
-        document.querySelector('.buttons').style.display = 'none';
-        return;
-      }
-      questionBox.style.display = '';
-      optionsBox.style.display = '';
-      document.getElementById('no-questions').style.display = 'none';
-      document.querySelector('.buttons').style.display = '';
-      const q = questions[current];
-      questionBox.innerHTML = q.q;
-      optionsBox.innerHTML = q.options.map((opt, i) => 
-        `<label style="display:flex;align-items:center;font-size:18px;font-weight:500;cursor:pointer;gap:6px;margin-bottom:2px;">
-          <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} style="margin-right:8px;transform:scale(1.15);vertical-align:middle;" />
-          <span style="vertical-align:middle;">${opt}</span>
-        </label>`
-      ).join('');
-      askAnything.style.display = (current === questions.length - 1) ? 'block' : 'none';
-      // Add event listeners for radio buttons
-      Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
-        radio.onclick = () => {
-          selected[current] = i;
-        };
-      });
-    }
-    document.getElementById('prevBtn').onclick = function() {
-      if (current > 0) {
-        current--;
-        renderQuestion();
-      }
-    };
-    document.getElementById('nextBtn').onclick = function() {
-      if (current < questions.length - 1) {
-        current++;
-        renderQuestion();
-      }
-    };
-    document.getElementById('backBtn').onclick = function(e) {
-      e.preventDefault();
-      current = -1;
-      renderQuestion();
-    };
-    document.getElementById('showQuestionsIcon').onclick = function(e) {
-      e.preventDefault();
-      if (current < 0) {
-        current = 0;
-        renderQuestion();
-      }
-    };
-    renderQuestion();
-  </script>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -344,6 +115,7 @@
   </style>
 </head>
 <body>
+  
   <!-- Back button -->
   <a href="#" class="back" id="backBtn">&larr; Back</a>
   <a href="#" class="btn" id="showQuestionsBtn" style="display:none;position:absolute;top:30px;right:30px;z-index:2;background:#FFB400;color:#001133;max-width:unset;width:auto;padding:10px 24px;font-size:20px;font-weight:700;">Family Issues Questions</a>
@@ -351,23 +123,17 @@
   <!-- Main content -->
   <div class="question-content">
     <span class="icon" aria-label="Family" role="img" id="showQuestionsIcon" >
-      <!-- Replaced Family SVG icon with warm colored icon -->
+      <!-- Family SVG icon -->
       <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Family Logo">
-        <!-- Background Circle -->
         <circle cx="40" cy="40" r="38" fill="#FFF8F0" stroke="#663300" stroke-width="2"/>
-        <!-- Parent 1 (Warm Orange) -->
         <circle cx="24" cy="28" r="6" fill="#FFB347"/>
         <rect x="21" y="34" width="6" height="20" rx="3" fill="#FFB347"/>
-        <!-- Parent 2 (Soft Red) -->
         <circle cx="56" cy="28" r="6" fill="#FF6F61"/>
         <rect x="53" y="34" width="6" height="20" rx="3" fill="#FF6F61"/>
-        <!-- Child (Bright Yellow) -->
         <circle cx="40" cy="36" r="5" fill="#FFD700"/>
         <rect x="38" y="42" width="4" height="12" rx="2" fill="#FFD700"/>
-        <!-- Protective Arc (Symbol of Unity) -->
         <path d="M 22 50 Q 40 62 58 50" stroke="#AA4400" stroke-width="2" fill="none" opacity="0.7"/>
         <path d="M 26 52 Q 40 64 54 52" stroke="#FF9900" stroke-width="1.5" fill="none" opacity="0.4"/>
-        <!-- Ground Shadow -->
         <ellipse cx="40" cy="70" rx="24" ry="3" fill="#DDAA77" opacity="0.5"/>
       </svg>
     </span>
@@ -382,12 +148,12 @@
     </div>
     <div id="ask-anything" style="margin-top: 24px; font-size: 22px; color: #FFB400; display:none;">Ask anything about family issues below!</div>
   </div>
-  <script>
+  <!-- <script>
     const questions = [
-      { q: 'Do you feel emotionally supported by your family?', options: ['Always', 'Sometimes', 'Rarely', 'Never'] },
-      { q: 'How often do family arguments affect your mental peace?', options: ['Never', 'Occasionally', 'Often', 'Always'] },
-      { q: 'Do you feel safe and comfortable expressing your thoughts at home?', options: ['Yes', 'Sometimes', 'No'] },
-      { q: 'Is there any ongoing tension or conflict in your family affecting you?', options: ['Yes', 'No', 'Not sure'] },
+      { q: 'Do you feel emotionally supported by your family?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] },
+      { q: 'How often do family arguments affect your mental peace?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] },
+      { q: 'Do you feel safe and comfortable expressing your thoughts at home?', options: ['No', 'Not sure', 'Yes'] },
+      { q: 'Is there any ongoing tension or conflict in your family affecting you?', options: ['No', 'Not sure', 'Yes'] },
       { q: 'How well do you think your family understands your academic/personal stress?', options: ['Very well', 'Somewhat', 'Not much', 'Not at all'] }
     ];
     let current = 0;
@@ -439,82 +205,55 @@
         renderQuestion();
       }
     };
-    // document.getElementById('nextBtn').onclick = function() {
-    //   if (current < questions.length - 1) {
-    //     current++;
-    //     renderQuestion();
-    //   }
-    // };
-    // document.getElementById('submitBtn').onclick = function() {
-    //   // Handle submission logic here
-    //   alert('Submitted!'); // Replace with your own logic
-    // };
     document.getElementById('nextBtn').onclick = function() {
-  if (selected[current] === null) {
-    alert('Please select an answer before proceeding.');
-    return;
-  }
-  if (current < questions.length - 1) {
-    current++;
-    renderQuestion();
-  }
-};
-
-// document.getElementById('submitBtn').onclick = function() {
-//   if (selected[current] === null) {
-//     alert('Please select an answer before submitting.');
-//     return;
-//   }
-//   // Handle submission logic here
-//   alert('Submitted!'); // Replace with your own logic
-// };
-document.getElementById('submitBtn').onclick = function() {
-  if (selected[current] === null) {
-    alert('Please select an answer before submitting.');
-    return;
-  }
-
-  // Map selected indices to answer text
-  const answers_text = questions.map((q, i) => q.options[selected[i]]);
-  // Map answer text to numbers for backend
-  const map_q = [
-    {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},
-    {'Never':1, 'Occasionally':2, 'Sometimes':3, 'Often':4, 'Always':5},
-    {'No':1, 'Yes':2, 'Not sure':3, 'Sometimes':2}, // 'Sometimes' for 3rd Q if needed
-    {'No':1, 'Yes':2, 'Not sure':3},
-    {'Very well':1, 'Somewhat':2, 'Not much':3, 'Not at all':4}
-  ];
-  const answers = answers_text.map((ans, i) => map_q[i][ans]);
-
-  // Send to backend
-  fetch('http://127.0.0.1:5001/predict-stress', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      type: 'family',
-      answers: answers,
-      answers_text: answers_text
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    localStorage.setItem('stressResults', JSON.stringify(data));
-    window.location.href = 'results.html';
-  })
-  .catch(err => {
-    alert('Error submitting answers. Please try again.');
-    console.error(err);
-  });
-};
-    // document.getElementById('backBtn').onclick = function(e) {
-    //   e.preventDefault();
-    //   current = -1;
-    //   renderQuestion();
-    // };
+      if (selected[current] === null) {
+        alert('Please select an answer before proceeding.');
+        return;
+      }
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      }
+    };
+    document.getElementById('submitBtn').onclick = function() {
+      if (selected[current] === null) {
+        alert('Please select an answer before submitting.');
+        return;
+      }
+      // Map selected indices to answer text
+      const answers = questions.map((q, i) => q.options[selected[i]]);
+      // Map answer text to numbers according to your custom mapping
+      const mapping = [
+        {'Never':5, 'Rarely':4, 'Sometimes':3, 'Often':2, 'Always':1}, // Q1: More support = lower stress
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2: More arguments = higher stress
+        {'No':5, 'Not sure':3, 'Yes':1}, // Q3: 'No' = high stress, 'Yes' = low stress
+        {'No':1, 'Not sure':3, 'Yes':5}, // Q4: 'No' = low stress, 'Yes' = high stress
+        {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5} // Q5: 'Very well' = low stress, 'Not at all' = high stress
+      ];
+      const answers_num = answers.map((ans, i) => mapping[i][ans]);
+      fetch('http://127.0.0.1:5001/predict-stress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'family',
+          answers: answers_num,
+          answers_text: answers
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem('stressResults', JSON.stringify(data));
+        window.location.href = 'results.html';
+      })
+      .catch(err => {
+        alert('Error submitting answers. Please try again.');
+        console.error(err);
+      });
+    };
     document.getElementById('backBtn').onclick = function(e) {
-  e.preventDefault();
-  window.location.href = 'sidebar.html'; // or the correct path to your sidebar
-};
+      e.preventDefault();
+      window.location.href = 'sidebar.html';
+    };
     document.getElementById('showQuestionsIcon').onclick = function(e) {
       e.preventDefault();
       if (current < 0) {
@@ -523,6 +262,122 @@ document.getElementById('submitBtn').onclick = function() {
       }
     };
     renderQuestion();
-  </script>
+  </script> -->
+  <script>
+  // Logically reworded questions and options
+  const questions = [
+    { q: 'How often do you feel emotionally supported by your family?', options: ['Always', 'Often', 'Sometimes', 'Rarely', 'Never'] }, // Always = low stress
+    { q: 'How often do family arguments disturb your peace?', options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'] }, // Always = high stress
+    { q: 'Do you feel safe expressing your thoughts at home?', options: ['Yes', 'Not sure', 'No'] }, // Yes = low stress
+    { q: 'Is there ongoing tension or conflict in your family affecting you?', options: ['No', 'Not sure', 'Yes'] }, // Yes = high stress
+    { q: 'How well does your family understand your stress?', options: ['Very well', 'Somewhat', 'Not much', 'Not at all'] } // Very well = low stress
+  ];
+  let current = 0;
+  let selected = Array(questions.length).fill(null);
+  const questionBox = document.getElementById('question-box');
+  const optionsBox = document.getElementById('options-box');
+  const askAnything = document.getElementById('ask-anything');
+
+  function renderQuestion() {
+    if (current < 0 || current >= questions.length) {
+      questionBox.style.display = 'none';
+      optionsBox.style.display = 'none';
+      document.getElementById('no-questions').style.display = 'block';
+      askAnything.style.display = 'none';
+      document.querySelector('.buttons').style.display = 'none';
+      return;
+    }
+    questionBox.style.display = '';
+    optionsBox.style.display = '';
+    document.getElementById('no-questions').style.display = 'none';
+    document.querySelector('.buttons').style.display = '';
+
+    const q = questions[current];
+    questionBox.innerHTML = q.q;
+    optionsBox.innerHTML = q.options.map((opt, i) => 
+      `<label style="display:flex;align-items:center;font-size:18px;font-weight:500;cursor:pointer;gap:6px;margin-bottom:2px;">
+        <input type="radio" name="option" value="${opt}" ${selected[current] === i ? 'checked' : ''} style="margin-right:8px;transform:scale(1.15);vertical-align:middle;" />
+        <span style="vertical-align:middle;">${opt}</span>
+      </label>`
+    ).join('');
+    askAnything.style.display = (current === questions.length - 1) ? 'block' : 'none';
+
+    // Show/hide buttons
+    document.getElementById('prevBtn').style.display = current > 0 ? '' : 'none';
+    document.getElementById('nextBtn').style.display = (current < questions.length - 1) ? '' : 'none';
+    document.getElementById('submitBtn').style.display = (current === questions.length - 1) ? '' : 'none';
+
+    // Add event listeners for radio buttons
+    Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
+      radio.onclick = () => {
+        selected[current] = i;
+      };
+    });
+  }
+
+  document.getElementById('prevBtn').onclick = function() {
+    if (current > 0) {
+      current--;
+      renderQuestion();
+    }
+  };
+  document.getElementById('nextBtn').onclick = function() {
+    if (selected[current] === null) {
+      alert('Please select an answer before proceeding.');
+      return;
+    }
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    }
+  };
+  document.getElementById('submitBtn').onclick = function() {
+    if (selected[current] === null) {
+      alert('Please select an answer before submitting.');
+      return;
+    }
+    // Map selected indices to answer text
+    const answers = questions.map((q, i) => q.options[selected[i]]);
+    // Logical mapping: 1 = lowest stress, 5 = highest stress for all
+    const mapping = [
+      {'Always':1, 'Often':2, 'Sometimes':3, 'Rarely':4, 'Never':5}, // Q1: More support = lower stress
+      {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2: More disturbance = higher stress
+      {'Yes':1, 'Not sure':3, 'No':5}, // Q3: Yes = low stress, No = high stress
+      {'No':1, 'Not sure':3, 'Yes':5}, // Q4: No = low stress, Yes = high stress
+      {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5} // Q5: Very well = low stress, Not at all = high stress
+    ];
+    const answers_num = answers.map((ans, i) => mapping[i][ans]);
+    fetch('http://127.0.0.1:5001/predict-stress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'family',
+        answers: answers_num,
+        answers_text: answers
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem('stressResults', JSON.stringify(data));
+      window.location.href = 'results.html';
+    })
+    .catch(err => {
+      alert('Error submitting answers. Please try again.');
+      console.error(err);
+    });
+  };
+  document.getElementById('backBtn').onclick = function(e) {
+    e.preventDefault();
+    window.location.href = 'sidebar.html';
+  };
+  document.getElementById('showQuestionsIcon').onclick = function(e) {
+    e.preventDefault();
+    if (current < 0) {
+      current = 0;
+      renderQuestion();
+    }
+  };
+  renderQuestion();
+</script>
 </body>
 </html>

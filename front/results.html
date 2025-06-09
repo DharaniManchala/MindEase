@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +111,21 @@
   <script>
     // Read results from localStorage
     const result = JSON.parse(localStorage.getItem('stressResults') || '{}');
-    const userAnswers = result.answers || [2, 3, 4, 3, 4, 2]; // fallback if not present
+    // For family domain, show the mapped answer values (1-5) for the chart
+    let userAnswers = result.answers || [2, 3, 4, 3, 4, 2]; // fallback if not present
+    if (result && result.answers && result.answers.length === 5 && result.type === 'family') {
+      // Use your custom mapping to convert answer text to numbers for chart display
+      const mapping = [
+        {'Never':5, 'Rarely':4, 'Sometimes':3, 'Often':2, 'Always':1}, // Q1: More support = lower stress
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2: More arguments = higher stress
+        {'No':5, 'Not sure':3, 'Yes':1}, // Q3: 'No' = high stress, 'Yes' = low stress
+        {'No':1, 'Not sure':3, 'Yes':5}, // Q4: 'No' = low stress, 'Yes' = high stress
+        {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5} // Q5: 'Very well' = low stress, 'Not at all' = high stress
+      ];
+      if (result.answers_text) {
+        userAnswers = result.answers_text.map((ans, i) => mapping[i][ans]);
+      }
+    }
 
     if (!result.level) {
       document.getElementById('slides-root').innerHTML = `
@@ -167,23 +180,37 @@
         {
           title: "Recommendations",
           content: `<ul class="rec-list" style="font-size:22px;">
-            ${(result.recommendations || []).map(r => `<li>${r.rec_icon || r.icon || ''} ${r.recommendation || r.text}</li>`).join('')}
+            ${(result.recommendations || []).map(r => {
+              const icon = r.rec_icon || r.icon || '';
+              const text = r.recommendation || r.text || '';
+              return `<li>${icon} ${text}</li>`;
+            }).join('')}
           </ul>`
         },
         {
           title: "Potential Effects of Stress",
           content: `<ul class="effects-list" style="font-size:22px;">
-            ${(result.effects || []).map(e => `<li>${e.icon} ${e.text}</li>`).join('')}
+            ${(result.effects || []).map(e => {
+              const icon = e.icon || e.effect_icon || '';
+              const text = e.text || e.effect || '';
+              return `<li>${icon} ${text}</li>`;
+            }).join('')}
           </ul>`
         },
         {
           title: "Recommended Resources",
           content: `<ul class="rec-list" style="font-size:22px;">
-            ${(result.resources || []).map(r => 
-              `<li>${r.Icon || r.icon || ''} <b>${r.Title || r.title}</b> 
-              <a href="${r.Link || r.link}" target="_blank" style="color:#00e0ff;text-decoration:underline;">[${r.ResourceType || r.type}]</a>
-              <br><span style="font-size:16px;">${r.Description || r.description}</span></li>`
-            ).join('')}
+            ${(result.resources || []).map(r => {
+              // Robustly handle all possible column name variations
+              const icon = r.icon || r.Icon || '';
+              const title = r.title || r.Title || '';
+              const link = r.link || r.Link || '';
+              const type = r.type || r.ResourceType || '';
+              const desc = r.description || r.Description || '';
+              return `<li>${icon} <b>${title}</b> 
+                <a href="${link}" target="_blank" style="color:#00e0ff;text-decoration:underline;">[${type}]</a>
+                <br><span style="font-size:16px;">${desc}</span></li>`;
+            }).join('')}
           </ul>`
         },
         {
@@ -235,6 +262,8 @@
       function drawChart() {
         const ctx = document.getElementById('stressChart').getContext('2d');
         if (window.stressChartInstance) window.stressChartInstance.destroy();
+        // Determine y-axis max based on domain (all domains now use 1-5 scale)
+        let yMax = 5;
         window.stressChartInstance = new Chart(ctx, {
           type: 'line',
           data: {
@@ -269,7 +298,7 @@
             scales: {
               y: {
                 min: 1,
-                max: 5,
+                max: yMax,
                 title: { display: true, text: 'Stress Score' }
               }
             }

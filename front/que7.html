@@ -135,32 +135,41 @@
   </div>
 
   <script>
-    const questions = [
+       const questions = [
       {
-        q: 'Do you feel misunderstood or unsupported by those around you?',
+        q: 'How often do you feel misunderstood or unsupported by those around you?',
         options: ['Never', 'Sometimes', 'Often', 'Always']
       },
       {
-        q: 'Are you currently facing any life changes (moving, break-up, loss, etc)?',
+        q: 'Do you feel comfortable sharing your feelings with others?',
         options: ['Yes', 'No', 'Prefer not to say']
       },
       {
-        q: 'How often do you feel mentally or emotionally exhausted for no clear reason?',
+        q: 'How often do you experience unexplained emotional or physical discomfort?',
         options: ['Never', 'Occasionally', 'Frequently', 'Almost daily']
       },
       {
-        q: 'Do you struggle with sleep or physical discomfort unrelated to known illness?',
+        q: 'Do you feel you have someone to turn to when facing challenges?',
         options: ['No', 'Sometimes', 'Often', 'Always']
       },
       {
-        q: 'Are there any personal fears or insecurities affecting your peace of mind?',
+        q: 'How much do other factors affect your stress?',
         options: ['Not at all', 'A little', 'Significantly', 'Extremely']
       },
       {
-        q: 'Do you think your stress might be related to something not listed above?',
+        q: 'Are you open to seeking help for stress?',
         options: ['Yes', 'No', 'Maybe']
       }
     ];
+
+    const mapping = [
+  {'Never':1, 'Sometimes':2, 'Often':3, 'Always':5},                        // Q1
+  {'Yes':1, 'No':3, 'Prefer not to say':5},                                 // Q2
+  {'Never':1, 'Occasionally':2, 'Frequently':3, 'Almost daily':5},          // Q3
+  {'No':1, 'Sometimes':2, 'Often':3, 'Always':5},                           // Q4
+  {'Not at all':1, 'A little':2, 'Significantly':3, 'Extremely':5},         // Q5
+  {'Yes':1, 'No':3, 'Maybe':5}                                              // Q6
+];
 
     let current = 0;
     let selected = Array(questions.length).fill(null);
@@ -169,6 +178,17 @@
     const qaSection = document.getElementById('qa-section');
     const icon = document.querySelector('.icon');
     const backBtn = document.getElementById('backBtn');
+
+    function updateButtonLabel() {
+      const nextBtn = document.getElementById('nextBtn');
+      if (current === questions.length - 1) {
+        nextBtn.textContent = 'Submit';
+        // Do NOT set a new onclick here; let the main handler handle submission
+      } else {
+        nextBtn.textContent = 'Next';
+        // Do NOT set a new onclick here; let the main handler handle advancing
+      }
+    }
 
     function renderQuestion() {
       const q = questions[current];
@@ -182,12 +202,12 @@
       Array.from(optionsBox.querySelectorAll('input[type=radio]')).forEach((radio, i) => {
         radio.onclick = () => selected[current] = i;
       });
+      updateButtonLabel();
     }
 
     backBtn.onclick = (e) => {
       e.preventDefault();
-      // Hide only the questions and options section
-      qaSection.style.display = 'none';
+      window.location.href = 'sidebar.html';
     };
 
     icon.onclick = () => {
@@ -203,8 +223,42 @@
     };
 
     document.getElementById('nextBtn').onclick = () => {
-      if (current < questions.length - 1) current++;
-      renderQuestion();
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else if (current === questions.length - 1) {
+        // On submit, collect answers and send to backend
+        if (selected.includes(null)) {
+          alert('Please answer all questions before submitting.');
+          return;
+        }
+        // Map selected indices to answer values (1-based)
+        // const answers = selected.map(i => i + 1);
+        // // Optionally, collect answer text for recommendations
+        // const answers_text = selected.map((i, idx) => questions[idx].options[i]);
+        // Prepare payload
+        // Map selected indices to answer text and mapped number
+const answers_text = selected.map((i, idx) => questions[idx].options[i]);
+const answers = answers_text.map((ans, i) => mapping[i][ans]);
+        const payload = {
+          answers,
+          answers_text,
+          type: 'other'
+        };
+        fetch('http://localhost:5001/predict-stress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem('stressResults', JSON.stringify(data));
+          window.location.href = 'results.html';
+        })
+        .catch(err => {
+          alert('Submission failed. Please try again.');
+        });
+      }
     };
 
     // Show questions section on page load

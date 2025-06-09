@@ -1,7 +1,7 @@
 Q1,Q2,Q3,Q4,Q5,StressLevel
 Always,Never,Yes,No,Very well,Low
 Always,Never,Yes,No,Somewhat,Low
-Always,Never,Yes,No,Not much,Medium
+Always,Never,Yes,No,Not much,High
 Always,Never,Yes,No,Not at all,High
 
 Sometimes,Occasionally,Yes,No,Very well,Low
@@ -40,92 +40,84 @@ Never,Always,Yes,Not sure,Not much,High
 Never,Always,Yes,Not sure,Not at all,High
 
 
-Always,Always,Yes,Yes,Very well,Low
-Always,Always,Yes,Yes,Somewhat,Medium
+Always,Always,Yes,Yes,Very well,High
+Always,Always,Yes,Yes,Somewhat,High
 Always,Always,Yes,Yes,Not much,High
 Always,Always,Yes,Yes,Not at all,High
-
-Sometimes,Occasionally,No,No,Very well,Low
-Sometimes,Occasionally,No,No,Somewhat,Medium
-Sometimes,Occasionally,No,No,Not much,Medium
-Sometimes,Occasionally,No,No,Not at all,High
-
-Rarely,Often,Yes,No,Very well,Medium
-Rarely,Often,Yes,No,Somewhat,Medium
-Rarely,Often,Yes,No,Not much,High
-Rarely,Often,Yes,No,Not at all,High
-
-Never,Never,No,No,Very well,Low
-Never,Never,No,No,Somewhat,Low
-Never,Never,No,No,Not much,Medium
-Never,Never,No,No,Not at all,Medium
-
-Always,Occasionally,Yes,Not sure,Very well,Low
-Always,Occasionally,Yes,Not sure,Somewhat,Medium
-Always,Occasionally,Yes,Not sure,Not much,Medium
-Always,Occasionally,Yes,Not sure,Not at all,High
-
-Sometimes,Always,No,Yes,Very well,Medium
-Sometimes,Always,No,Yes,Somewhat,High
-Sometimes,Always,No,Yes,Not much,High
-Sometimes,Always,No,Yes,Not at all,High
-
-Rarely,Never,Yes,No,Very well,Low
-Rarely,Never,Yes,No,Somewhat,Low
-Rarely,Never,Yes,No,Not much,Medium
-Rarely,Never,Yes,No,Not at all,Medium
-
-Never,Occasionally,Yes,Yes,Very well,Low
-Never,Occasionally,Yes,Yes,Somewhat,Medium
-Never,Occasionally,Yes,Yes,Not much,High
-Never,Occasionally,Yes,Yes,Not at all,High
-
-Always,Often,No,Yes,Very well,Medium
-Always,Often,No,Yes,Somewhat,High
-Always,Often,No,Yes,Not much,High
-Always,Often,No,Yes,Not at all,High
-
-Sometimes,Never,No,Not sure,Very well,Low
-Sometimes,Never,No,Not sure,Somewhat,Medium
-Sometimes,Never,No,Not sure,Not much,Medium
-Sometimes,Never,No,Not sure,Not at all,High
-
-Always,Always,No,No,Very well,Low
-Always,Always,No,No,Somewhat,Medium
-Always,Always,No,No,Not much,High
+Always,Always,Yes,Not sure,Not at all,High
 Always,Always,No,No,Not at all,High
-
-Sometimes,Always,Yes,Yes,Very well,Medium
-Sometimes,Always,Yes,Yes,Somewhat,High
-Sometimes,Always,Yes,Yes,Not much,High
+Always,Always,No,No,Not much,High
+Always,Always,No,No,Somewhat,Medium
+Always,Always,No,No,Very well,Medium
+Always,Never,Yes,No,Not at all,High
+Always,Never,Yes,No,Not much,High
+Always,Never,Yes,No,Somewhat,Medium
+Always,Never,Yes,No,Very well,Medium
 Sometimes,Always,Yes,Yes,Not at all,High
-
-Rarely,Occasionally,No,Yes,Very well,Low
-Rarely,Occasionally,No,Yes,Somewhat,Medium
-Rarely,Occasionally,No,Yes,Not much,Medium
-Rarely,Occasionally,No,Yes,Not at all,High
-
-Never,Often,Yes,No,Very well,Medium
-Never,Often,Yes,No,Somewhat,High
-Never,Often,Yes,No,Not much,High
-Never,Often,Yes,No,Not at all,High
-
-Always,Never,Yes,Not sure,Very well,Low
-Always,Never,Yes,Not sure,Somewhat,Medium
-Always,Never,Yes,Not sure,Not much,Medium
-Always,Never,Yes,Not sure,Not at all,High
-
-Sometimes,Occasionally,No,Not sure,Very well,Low
-Sometimes,Occasionally,No,Not sure,Somewhat,Medium
-Sometimes,Occasionally,No,Not sure,Not much,Medium
-Sometimes,Occasionally,No,Not sure,Not at all,High
-
-Rarely,Always,No,No,Very well,Medium
-Rarely,Always,No,No,Somewhat,High
-Rarely,Always,No,No,Not much,High
+Sometimes,Always,Yes,Yes,Not much,High
+Sometimes,Always,Yes,Yes,Somewhat,High
+Sometimes,Always,Yes,Yes,Very well,Medium
+Never,Always,No,Yes,Not at all,High
+Never,Always,No,Yes,Not much,High
+Never,Always,No,Yes,Somewhat,High
+Never,Always,No,Yes,Very well,Medium
 Rarely,Always,No,No,Not at all,High
-
-Never,Never,Yes,Yes,Very well,Low
+Rarely,Always,No,No,Not much,High
+Rarely,Always,No,No,Somewhat,High
+Rarely,Always,No,No,Very well,Medium
+Sometimes,Occasionally,Yes,No,Not at all,High
+Sometimes,Occasionally,Yes,No,Not much,High
+Sometimes,Occasionally,Yes,No,Somewhat,Medium
+Sometimes,Occasionally,Yes,No,Very well,Medium
+Rarely,Often,No,Yes,Not at all,High
+Rarely,Often,No,Yes,Not much,High
+Rarely,Often,No,Yes,Somewhat,Medium
+Rarely,Often,No,Yes,Very well,Medium
+Never,Never,Yes,Yes,Not at all,High
+Never,Never,Yes,Yes,Not much,High
 Never,Never,Yes,Yes,Somewhat,Low
-Never,Never,Yes,Yes,Not much,Medium
-Never,Never,Yes,Yes,Not at all,Medium
+Never,Never,Yes,Yes,Very well,Low
+Always,Never,No,Not sure,Not at all,High
+Always,Never,No,Not sure,Not much,High
+Always,Never,No,Not sure,Somewhat,Medium
+Always,Never,No,Not sure,Very well,Medium
+Sometimes,Never,No,Not sure,Not at all,High
+Sometimes,Never,No,Not sure,Not much,High
+Sometimes,Never,No,Not sure,Somewhat,Medium
+Sometimes,Never,No,Not sure,Very well,Low
+Rarely,Never,Yes,No,Not at all,Medium
+Rarely,Never,Yes,No,Not much,Medium
+Rarely,Never,Yes,No,Somewhat,Low
+Rarely,Never,Yes,No,Very well,Low
+Never,Occasionally,Yes,Yes,Not at all,High
+Never,Occasionally,Yes,Yes,Not much,High
+Never,Occasionally,Yes,Yes,Somewhat,Medium
+Never,Occasionally,Yes,Yes,Very well,Low
+Always,Occasionally,Yes,Not sure,Not at all,High
+Always,Occasionally,Yes,Not sure,Not much,High
+Always,Occasionally,Yes,Not sure,Somewhat,Medium
+Always,Occasionally,Yes,Not sure,Very well,Medium
+Sometimes,Always,No,Yes,Not at all,High
+Sometimes,Always,No,Yes,Not much,High
+Sometimes,Always,No,Yes,Somewhat,High
+Sometimes,Always,No,Yes,Very well,Medium
+Rarely,Occasionally,No,Yes,Not at all,High
+Rarely,Occasionally,No,Yes,Not much,Medium
+Rarely,Occasionally,No,Yes,Somewhat,Medium
+Rarely,Occasionally,No,Yes,Very well,Low
+Never,Often,Yes,No,Not at all,High
+Never,Often,Yes,No,Not much,High
+Never,Often,Yes,No,Somewhat,Medium
+Never,Often,Yes,No,Very well,Medium
+Always,Often,No,Yes,Not at all,High
+Always,Often,No,Yes,Not much,High
+Always,Often,No,Yes,Somewhat,High
+Always,Often,No,Yes,Very well,Medium
+Sometimes,Occasionally,No,No,Not at all,High
+Sometimes,Occasionally,No,No,Not much,Medium
+Sometimes,Occasionally,No,No,Somewhat,Medium
+Sometimes,Occasionally,No,No,Very well,Low
+Never,Never,No,No,Not at all,Medium
+Never,Never,No,No,Not much,Medium
+Never,Never,No,No,Somewhat,Low
+Never,Never,No,No,Very well,Low
