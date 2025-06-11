@@ -1,0 +1,101 @@
+Q1,Q2,Q3,Q4,Q5,Q6,Timestamp
+Never,Never,Very well,Never,Never,Very well,2025-06-08 09:00:00
+Rarely,Rarely,Well,Rarely,Rarely,Well,2025-06-08 09:01:00
+Sometimes,Sometimes,Neutral,Sometimes,Sometimes,Neutral,2025-06-08 09:02:00
+Often,Often,Poorly,Often,Often,Poorly,2025-06-08 09:03:00
+Always,Always,Very poorly,Always,Always,Very poorly,2025-06-08 09:04:00
+Never,Always,Very well,Never,Always,Very well,2025-06-08 09:05:00
+Always,Never,Very poorly,Always,Never,Very poorly,2025-06-08 09:06:00
+Sometimes,Often,Neutral,Often,Always,Neutral,2025-06-08 09:07:00
+Rarely,Sometimes,Well,Sometimes,Often,Well,2025-06-08 09:08:00
+Often,Rarely,Poorly,Rarely,Sometimes,Poorly,2025-06-08 09:09:00
+Never,Never,Very well,Always,Never,Very well,2025-06-08 09:10:00
+Always,Always,Very poorly,Never,Always,Very poorly,2025-06-08 09:11:00
+Sometimes,Sometimes,Neutral,Always,Sometimes,Neutral,2025-06-08 09:12:00
+Rarely,Often,Well,Never,Often,Well,2025-06-08 09:13:00
+Often,Rarely,Poorly,Always,Sometimes,Poorly,2025-06-08 09:14:00
+Never,Always,Very well,Rarely,Always,Very well,2025-06-08 09:15:00
+Always,Never,Very poorly,Often,Never,Very poorly,2025-06-08 09:16:00
+Sometimes,Often,Neutral,Sometimes,Always,Neutral,2025-06-08 09:17:00
+Rarely,Sometimes,Well,Often,Often,Well,2025-06-08 09:18:00
+Often,Rarely,Poorly,Sometimes,Sometimes,Poorly,2025-06-08 09:19:00
+Never,Never,Very well,Never,Never,Very well,2025-06-08 09:20:00
+Rarely,Rarely,Well,Rarely,Rarely,Well,2025-06-08 09:21:00
+Sometimes,Sometimes,Neutral,Sometimes,Sometimes,Neutral,2025-06-08 09:22:00
+Often,Often,Poorly,Often,Often,Poorly,2025-06-08 09:23:00
+Always,Always,Very poorly,Always,Always,Very poorly,2025-06-08 09:24:00
+Never,Always,Very well,Never,Always,Very well,2025-06-08 09:25:00
+Always,Never,Very poorly,Always,Never,Very poorly,2025-06-08 09:26:00
+Sometimes,Often,Neutral,Often,Always,Neutral,2025-06-08 09:27:00
+Rarely,Sometimes,Well,Sometimes,Often,Well,2025-06-08 09:28:00
+Often,Rarely,Poorly,Rarely,Sometimes,Poorly,2025-06-08 09:29:00
+Never,Never,Very well,Always,Never,Very well,2025-06-08 09:30:00
+Always,Always,Very poorly,Never,Always,Very poorly,2025-06-08 09:31:00
+Sometimes,Sometimes,Neutral,Always,Sometimes,Neutral,2025-06-08 09:32:00
+Rarely,Often,Well,Never,Often,Well,2025-06-08 09:33:00
+Often,Rarely,Poorly,Always,Sometimes,Poorly,2025-06-08 09:34:00
+Never,Always,Very well,Rarely,Always,Very well,2025-06-08 09:35:00
+Always,Never,Very poorly,Often,Never,Very poorly,2025-06-08 09:36:00
+Sometimes,Often,Neutral,Sometimes,Always,Neutral,2025-06-08 09:37:00
+Rarely,Sometimes,Well,Often,Often,Well,2025-06-08 09:38:00
+Often,Rarely,Poorly,Sometimes,Sometimes,Poorly,2025-06-08 09:39:00
+Never,Never,Very well,Never,Never,Very well,2025-06-08 09:40:00
+Rarely,Rarely,Well,Rarely,Rarely,Well,2025-06-08 09:41:00
+Sometimes,Sometimes,Neutral,Sometimes,Sometimes,Neutral,2025-06-08 09:42:00
+Often,Often,Poorly,Often,Often,Poorly,2025-06-08 09:43:00
+Always,Always,Very poorly,Always,Always,Very poorly,2025-06-08 09:44:00
+Never,Always,Very well,Never,Always,Very well,2025-06-08 09:45:00
+Always,Never,Very poorly,Always,Never,Very poorly,2025-06-08 09:46:00
+Sometimes,Often,Neutral,Often,Always,Neutral,2025-06-08 09:47:00
+Rarely,Sometimes,Well,Sometimes,Often,Well,2025-06-08 09:48:00
+Often,Rarely,Poorly,Rarely,Sometimes,Poorly,2025-06-08 09:49:00
+Never,Never,Very well,Always,Never,Very well,2025-06-08 09:50:00
+Always,Always,Very poorly,Never,Always,Very poorly,2025-06-08 09:51:00
+Sometimes,Sometimes,Neutral,Always,Sometimes,Neutral,2025-06-08 09:52:00
+Rarely,Often,Well,Never,Often,Well,2025-06-08 09:53:00
+Often,Rarely,Poorly,Always,Sometimes,Poorly,2025-06-08 09:54:00
+Never,Always,Very well,Rarely,Always,Very well,2025-06-08 09:55:00
+Always,Never,Very poorly,Often,Never,Very poorly,2025-06-08 09:56:00
+Sometimes,Often,Neutral,Sometimes,Always,Neutral,2025-06-08 09:57:00
+Rarely,Sometimes,Well,Often,Often,Well,2025-06-08 09:58:00
+Often,Rarely,Poorly,Sometimes,Sometimes,Poorly,2025-06-08 09:59:00
+Never,Never,Very well,Never,Never,Very well,2025-06-08 10:00:00
+Rarely,Rarely,Well,Rarely,Rarely,Well,2025-06-08 10:01:00
+Sometimes,Sometimes,Neutral,Sometimes,Sometimes,Neutral,2025-06-08 10:02:00
+Often,Often,Poorly,Often,Often,Poorly,2025-06-08 10:03:00
+Always,Always,Very poorly,Always,Always,Very poorly,2025-06-08 10:04:00
+Never,Always,Very well,Never,Always,Very well,2025-06-08 10:05:00
+Always,Never,Very poorly,Always,Never,Very poorly,2025-06-08 10:06:00
+Sometimes,Often,Neutral,Often,Always,Neutral,2025-06-08 10:07:00
+Rarely,Sometimes,Well,Sometimes,Often,Well,2025-06-08 10:08:00
+Often,Rarely,Poorly,Rarely,Sometimes,Poorly,2025-06-08 10:09:00
+Never,Never,Very well,Always,Never,Very well,2025-06-08 10:10:00
+Always,Always,Very poorly,Never,Always,Very poorly,2025-06-08 10:11:00
+Sometimes,Sometimes,Neutral,Always,Sometimes,Neutral,2025-06-08 10:12:00
+Rarely,Often,Well,Never,Often,Well,2025-06-08 10:13:00
+Often,Rarely,Poorly,Always,Sometimes,Poorly,2025-06-08 10:14:00
+Never,Always,Very well,Rarely,Always,Very well,2025-06-08 10:15:00
+Always,Never,Very poorly,Often,Never,Very poorly,2025-06-08 10:16:00
+Sometimes,Often,Neutral,Sometimes,Always,Neutral,2025-06-08 10:17:00
+Rarely,Sometimes,Well,Often,Often,Well,2025-06-08 10:18:00
+Often,Rarely,Poorly,Sometimes,Sometimes,Poorly,2025-06-08 10:19:00
+Never,Never,Very well,Never,Never,Very well,2025-06-08 10:20:00
+Rarely,Rarely,Well,Rarely,Rarely,Well,2025-06-08 10:21:00
+Sometimes,Sometimes,Neutral,Sometimes,Sometimes,Neutral,2025-06-08 10:22:00
+Often,Often,Poorly,Often,Often,Poorly,2025-06-08 10:23:00
+Always,Always,Very poorly,Always,Always,Very poorly,2025-06-08 10:24:00
+Never,Always,Very well,Never,Always,Very well,2025-06-08 10:25:00
+Always,Never,Very poorly,Always,Never,Very poorly,2025-06-08 10:26:00
+Sometimes,Often,Neutral,Often,Always,Neutral,2025-06-08 10:27:00
+Rarely,Sometimes,Well,Sometimes,Often,Well,2025-06-08 10:28:00
+Often,Rarely,Poorly,Rarely,Sometimes,Poorly,2025-06-08 10:29:00
+Never,Never,Very well,Always,Never,Very well,2025-06-08 10:30:00
+Always,Always,Very poorly,Never,Always,Very poorly,2025-06-08 10:31:00
+Sometimes,Sometimes,Neutral,Always,Sometimes,Neutral,2025-06-08 10:32:00
+Rarely,Often,Well,Never,Often,Well,2025-06-08 10:33:00
+Often,Rarely,Poorly,Always,Sometimes,Poorly,2025-06-08 10:34:00
+Never,Always,Very well,Rarely,Always,Very well,2025-06-08 10:35:00
+Always,Never,Very poorly,Often,Never,Very poorly,2025-06-08 10:36:00
+Sometimes,Often,Neutral,Sometimes,Always,Neutral,2025-06-08 10:37:00
+Rarely,Sometimes,Well,Often,Often,Well,2025-06-08 10:38:00
+Often,Rarely,Poorly,Sometimes,Sometimes,Poorly,2025-06-08 10:39:00

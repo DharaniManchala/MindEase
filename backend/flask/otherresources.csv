@@ -1,0 +1,10 @@
+StressLevel,ResourceType,Title,Link,Description,Icon
+High,Book,"The Upside of Stress","https://www.amazon.com/dp/1101982934","A science-based guide to transforming stress into strength.","📘"
+High,Video,"How to Cope with Uncertainty (TEDx)","https://www.youtube.com/watch?v=F4Zu5ZZAG7I","TEDx talk on managing stress from uncertainty and change.","🎥"
+High,Activity,"Grounding Techniques (Therapist Aid)","https://www.therapistaid.com/worksheets/grounding-techniques.pdf","Printable grounding exercises for anxiety and stress.","🧘"
+Medium,Book,"Resilient: How to Grow an Unshakable Core of Calm","https://www.amazon.com/dp/0451498852","Practical tools for building resilience and handling life's challenges.","📗"
+Medium,Video,"How to Build Resilience (TED)","https://www.youtube.com/watch?v=1fdl1bYbX2k","TED talk on bouncing back from adversity.","💪"
+Medium,Activity,"Mindful Walking (NHS)","https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/mindfulness/","A simple guide to mindful walking for stress relief.","🚶"
+Low,Book,"The Little Book of Hygge","https://www.amazon.com/dp/0062658808","Simple ways to find comfort and joy in everyday life.","📖"
+Low,Video,"The Science of Happiness (YouTube)","https://www.youtube.com/watch?v=92tuvK6F5Lg","Learn about happiness and well-being.","🌟"
+Low,Activity,"Random Acts of Kindness (Action for Happiness)","https://www.actionforhappiness.org/kindness-ideas","Ideas for spreading kindness and boosting your mood.","🤝"
