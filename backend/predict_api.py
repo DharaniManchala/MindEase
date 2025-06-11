@@ -284,8 +284,11 @@ def predict_stress():
         pred = model.predict(X_input)[0]
     else:
         pred = model.predict([answers_for_model])[0]
-    percent = int(np.mean(answers_for_model) / 5 * 100)
-    score = int(np.mean(answers_for_model) * 2)
+   # percent = int(np.mean(answers_for_model) / 5 * 100)
+    percent = int((np.mean(answers_for_model) - 1) / 4 * 100)
+
+    # score = int(np.mean(answers_for_model) * 2)
+    score = int((np.mean(answers_for_model) - 1) / 4 * 10)
 
     # Recommendation and resources
     recommendations = [get_recommendation(data.get('answers_text', []), stress_type)]

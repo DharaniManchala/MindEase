@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MindEase - Stress Slides</title>
+  <title>MindEase - Stress Results</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="history.js"></script>
   <style>
-    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100vh;
       font-family: 'Segoe UI', sans-serif;
       background: url('one.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -18,19 +17,68 @@
     }
     .slide {
       display: none;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      left: 0;
+      padding-bottom: 120px;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       text-align: center;
       padding: 20px;
+      min-height: 80vh;
     }
     .slide.active {
       display: flex;
+    }
+    .nav-buttons {
+      position: fixed;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      z-index: 100;
+      background: none;
+      pointer-events: auto;
+    }
+    .nav-buttons button {
+      padding: 16px 36px;
+      font-size: 22px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00c2ff 0%, #0072ff 100%);
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px #0007;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      outline: none;
+      min-width: 160px;
+      max-width: 90vw;
+      white-space: nowrap;
+    }
+    .nav-buttons button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .nav-buttons button:hover, .nav-buttons button:focus {
+      background: linear-gradient(90deg, #0072ff 0%, #00c2ff 100%);
+      color: #fff;
+      transform: scale(1.07);
+      border-color: #ffd700;
+    }
+    @media (max-width: 600px) {
+      .nav-buttons {
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 10px;
+        bottom: 10px;
+      }
+      .nav-buttons button {
+        width: 100%;
+        min-width: 0;
+        font-size: 18px;
+        padding: 14px 0;
+      }
     }
     .circle {
       width: 120px;
@@ -76,29 +124,26 @@
       cursor: pointer;
       box-shadow: 0 0 10px #00000077;
       margin-top: 30px;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
     }
-    .nav-buttons {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
+    .action-btn:hover, .action-btn:focus {
+      background-color: #0072ff;
+      transform: scale(1.05);
+    }
+    .final-btns {
       display: flex;
-      justify-content: space-between;
-      padding: 0 40px;
-      z-index: 10;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
     }
-    .nav-buttons button {
-      padding: 12px 28px;
-      font-size: 16px;
-      background-color: #0066cc;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .nav-buttons button:hover {
-      background-color: #004a99;
+    @media (max-width: 600px) {
+      .final-btns {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
     }
   </style>
 </head>
@@ -111,21 +156,82 @@
   <script>
     // Read results from localStorage
     const result = JSON.parse(localStorage.getItem('stressResults') || '{}');
+
+    // Save history for Previous History feature
+    recordDayUsed();
+    saveDayDetails({
+      level: result.level,
+      percent: result.percent,
+      recommendations: result.recommendations,
+      effects: result.effects,
+      resources: result.resources,
+      answers: result.answers,
+      domain: result.domain,
+      timestamp: new Date().toISOString().slice(0, 10)
+    });
+
+    // --- High Stress Notification for All Domains ---
+    if (result.level === "High" && result.domain) {
+      const email = localStorage.getItem('userEmail') || '';
+      const domainMap = {
+        "Academic": "Academic",
+        "Family": "Family",
+        "Illness": "Illness",
+        "Work": "Work",
+        "Relationship": "Relationship",
+        "Time Management": "Time Management",
+        "Other": "Other"
+      };
+      const domainKey = domainMap[result.domain] || result.domain;
+      localStorage.setItem('highStressNotified_' + domainKey + '_' + email, 'true');
+      localStorage.setItem('highStressDate_' + domainKey + '_' + email, Date.now().toString());
+    }
+
     // For family domain, show the mapped answer values (1-5) for the chart
-    let userAnswers = result.answers || [2, 3, 4, 3, 4, 2]; // fallback if not present
+    let userAnswers = result.answers || [2, 3, 4, 3, 4, 2];
     if (result && result.answers && result.answers.length === 5 && result.type === 'family') {
-      // Use your custom mapping to convert answer text to numbers for chart display
       const mapping = [
-        {'Never':5, 'Rarely':4, 'Sometimes':3, 'Often':2, 'Always':1}, // Q1: More support = lower stress
-        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5}, // Q2: More arguments = higher stress
-        {'No':5, 'Not sure':3, 'Yes':1}, // Q3: 'No' = high stress, 'Yes' = low stress
-        {'No':1, 'Not sure':3, 'Yes':5}, // Q4: 'No' = low stress, 'Yes' = high stress
-        {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5} // Q5: 'Very well' = low stress, 'Not at all' = high stress
+        {'Never':5, 'Rarely':4, 'Sometimes':3, 'Often':2, 'Always':1},
+        {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},
+        {'No':5, 'Not sure':3, 'Yes':1},
+        {'No':1, 'Not sure':3, 'Yes':5},
+        {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5}
       ];
       if (result.answers_text) {
         userAnswers = result.answers_text.map((ans, i) => mapping[i][ans]);
       }
     }
+
+    // Game slide logic
+    const gameSlides = {
+      "High": {
+        title: "Take a Break: Dino Game",
+        content: `<div style="font-size:22px;margin-bottom:20px;">
+          <b>Feeling stressed? Try the classic Dino Game!</b><br>
+          <a href="https://chromedino.com/" target="_blank" style="display:inline-block;margin-top:18px;">
+            <button class="action-btn" style="font-size:26px;">Play Dino Game 🦖</button>
+          </a>
+        </div>`
+      },
+      "Medium": {
+        title: "Take a Break: Quick, Draw!",
+        content: `<div style="font-size:22px;margin-bottom:20px;">
+          <b>Need a creative break? Try Quick, Draw!</b><br>
+          <a href="https://quickdraw.withgoogle.com/" target="_blank" style="display:inline-block;margin-top:18px;">
+            <button class="action-btn" style="font-size:26px;">Play Quick, Draw! ✏️</button>
+          </a>
+        </div>`
+      },
+      "Low": {
+        title: "Relax with 2048",
+        content: `<div style="font-size:22px;margin-bottom:20px;">
+          <b>Relax and enjoy a quick game of 2048!</b><br>
+          <a href="https://play2048.co/" target="_blank" style="display:inline-block;margin-top:18px;">
+            <button class="action-btn" style="font-size:26px;">Play 2048 🎲</button>
+          </a>
+        </div>`
+      }
+    };
 
     if (!result.level) {
       document.getElementById('slides-root').innerHTML = `
@@ -139,17 +245,17 @@
       const slidesData = [
         {
           title: "Your Stress Level",
-          content: `<span class="level ${result.level?.toLowerCase() || ''}">${result.score || ''} / 10</span>
+          content: `<span class="level ${result.level?.toLowerCase() || ''}">${result.score ?? 0} / 10</span>
             <div class="circle">
               <svg width="120" height="120">
                 <circle cx="60" cy="60" r="50" stroke="#222" stroke-width="12" fill="none"/>
                 <circle cx="60" cy="60" r="50" stroke="#00e0ff" stroke-width="12" fill="none"
                   stroke-dasharray="314"
-                  stroke-dashoffset="${314 - (314 * (result.percent || 0) / 100)}"
+                  stroke-dashoffset="${314 - (314 * (result.percent ?? 0) / 100)}"
                   style="transition:stroke-dashoffset 1s;"/>
               </svg>
               <div style="position:absolute;top:0;left:0;width:120px;height:120px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:bold;">
-                ${result.percent || ''}%
+                ${result.percent ?? 0}%
               </div>
             </div>
             <div class="level ${result.level?.toLowerCase() || ''}">${result.level || ''}</div>`
@@ -166,11 +272,11 @@
           content: `
             <div style="width:80%;margin:0 auto;">
               <div style="background:#222;border-radius:20px;height:40px;overflow:hidden;">
-                <div style="width:${result.percent || 0}%;background:${
+                <div style="width:${result.percent ?? 0}%;background:${
                   result.level === 'High' ? '#ff5050' : result.level === 'Medium' ? '#ffd700' : '#00ff99'
                 };height:100%;transition:width 1s;"></div>
               </div>
-              <div style="font-size:30px;margin-top:10px;text-align:center;">${result.percent || 0}%</div>
+              <div style="font-size:30px;margin-top:10px;text-align:center;">${result.percent ?? 0}%</div>
               <div style="font-size:40px;font-weight:bold;color:${
                 result.level === 'High' ? '#ff5050' : result.level === 'Medium' ? '#ffd700' : '#00ff99'
               }">${result.level || ''}</div>
@@ -201,7 +307,6 @@
           title: "Recommended Resources",
           content: `<ul class="rec-list" style="font-size:22px;">
             ${(result.resources || []).map(r => {
-              // Robustly handle all possible column name variations
               const icon = r.icon || r.Icon || '';
               const title = r.title || r.Title || '';
               const link = r.link || r.Link || '';
@@ -213,13 +318,26 @@
             }).join('')}
           </ul>`
         },
+        // Game slide here
+        gameSlides[result.level] || {
+          title: "Take a Break",
+          content: `<div style="font-size:22px;margin-bottom:20px;">
+            <b>Take a short break and play a relaxing game!</b>
+          </div>`
+        },
+        // Final slide with two big buttons
         {
           title: "Takeaway",
-          content: `<div style="font-size:22px;margin-bottom:20px;">
-                      <b>Your stress level is <span class="level ${result.level?.toLowerCase() || ''}">${result.level}</span>.</b><br>
-                      Remember: Consistent self-care and support can make a big difference!
-                    </div>
-                    <button class="action-btn" onclick="alert('Great! Start with one small step today!')">Take Action</button>`
+          content: `
+            <div style="font-size:22px;margin-bottom:20px;">
+              <b>Your stress level is <span class="level ${result.level?.toLowerCase() || ''}">${result.level}</span>.</b><br>
+              Remember: Consistent self-care and support can make a big difference!
+            </div>
+            <div class="final-btns">
+              <button class="action-btn" onclick="window.location.href='sidebar.html'">Take Another Test</button>
+              <button class="action-btn" onclick="window.location.href='../frontend/first.html'">Go to Home Page</button>
+            </div>
+          `
         }
       ];
 
@@ -241,9 +359,13 @@
         slides.forEach((slide, i) => {
           slide.classList.toggle('active', i === index);
         });
-        nextBtn.style.display = (index === total - 1) ? 'none' : '';
-        prevBtn.style.display = (index === 0) ? 'none' : '';
-        if (slides[index].querySelector('#stressChart')) drawChart();
+        nextBtn.disabled = (index === total - 1);
+        prevBtn.disabled = (index === 0);
+
+        // Draw chart if this slide contains the chart
+        if (slides[index].querySelector('#stressChart')) {
+          drawChart();
+        }
       }
 
       nextBtn.onclick = () => {
@@ -253,16 +375,11 @@
         if (current > 0) { current--; showSlide(current); }
       };
 
-      setInterval(() => {
-        if (current < total - 1) { current++; showSlide(current); }
-      }, 5000);
-
       showSlide(current);
 
       function drawChart() {
         const ctx = document.getElementById('stressChart').getContext('2d');
         if (window.stressChartInstance) window.stressChartInstance.destroy();
-        // Determine y-axis max based on domain (all domains now use 1-5 scale)
         let yMax = 5;
         window.stressChartInstance = new Chart(ctx, {
           type: 'line',

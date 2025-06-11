@@ -151,9 +151,12 @@ def train_and_test(
         plt.ylabel('Average Score')
         plt.title(f'{mode_name.capitalize()} Stress Level Over Time')
         plt.show()
+        print("Last row mapped answers:", df.iloc[-1][[f'Q{i+1}n' for i in range(n_questions)]].tolist())
+        print("Last row average:", df['Average'].iloc[-1])
 
     last_avg = df['Average'].iloc[-1]
-    percent = last_avg / 5 * 100
+    # percent = last_avg / 5 * 100
+    percent = ((last_avg - 1) / 4) * 100
 
     plt.figure(figsize=(4,4))
     plt.pie([percent, 100-percent], labels=[f'Stress {percent:.1f}%', ''], startangle=90, colors=['#f44336','#e0e0e0'], wedgeprops={'width':0.3})
@@ -254,26 +257,6 @@ train_and_test(
     mode_name="academic"
 )
 
-# # --------- Family Stress ---------
-# train_and_test(
-#     answers_file='famstress.csv',
-#     resources_file='famresources.csv',
-#     rec_file='famrecommendation.csv',
-#     model_file='family_stress_model.pkl',
-#     latest_json='latest_family_prediction.json',
-#     question_cols=['Q1', 'Q2', 'Q3', 'Q4', 'Q5'],  # No Timestamp or StressLevel in CSV
-#     map_q=[
-#         {'Never':5, 'Rarely':4, 'Sometimes':3, 'Often':2, 'Always':1},  # Q1: More support = lower stress
-#         {'Never':1, 'Rarely':2, 'Sometimes':3, 'Often':4, 'Always':5},  # Q2: More arguments = higher stress
-#         {'No':5, 'Not sure':3, 'Yes':1},  # Q3: 'No' = high stress, 'Yes' = low stress
-#         {'No':1, 'Not sure':3, 'Yes':5},  # Q4: 'No' = low stress, 'Yes' = high stress
-#         {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5}    # Q5: 'Very well' = low stress, 'Not at all' = high stress
-#     ],
-#     n_questions=5,
-#     default_answers=['Never', 'Always', 'No', 'Yes', 'Not at all'],
-#     label_func=lambda avg: 'High' if avg >= 4 else ('Medium' if avg >= 2.5 else 'Low'),
-#     mode_name="family"
-# )
 # --------- Family Stress ---------
 train_and_test(
     answers_file='famstress.csv',
@@ -295,27 +278,6 @@ train_and_test(
     mode_name="family"
 )
 
-# # --------- Illness Stress ---------
-# train_and_test(
-#     answers_file='illnessstress.csv',
-#     resources_file='illnessresources.csv',
-#     rec_file='illnessrecommendation.csv',
-#     model_file='illness_stress_model.pkl',
-#     latest_json='latest_illness_prediction.json',
-#     question_cols=['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Timestamp'],
-#     map_q=[
-#         {'No': 1, 'Somewhat': 3, 'Yes': 5},  # Q1: Yes = 5 (high stress), No = 1 (low)
-#         {'Never': 1, 'Sometimes': 3, 'Often': 4, 'Always': 5},  # Q2: Always = 5
-#         {'Not at all': 1, 'Slightly': 2, 'Moderately': 3, 'Severely': 5},  # Q3: Severely = 5
-#         {'Yes': 1, 'Occasionally': 3, 'No': 5},  # Q4: No = 5 (high stress), Yes = 1 (low)
-#         {'Yes': 1, 'Somewhat': 3, 'No': 5},  # Q5: No = 5 (high stress), Yes = 1 (low)
-#         {'Very hopeful': 1, 'Neutral': 3, 'Not hopeful': 5}  # Q6: Not hopeful = 5
-#     ],
-#     n_questions=6,
-#     default_answers=['Yes', 'Always', 'Severely', 'No', 'No', 'Not hopeful'],
-#     label_func=lambda avg: 'High' if avg >= 4 else ('Medium' if avg >= 2.5 else 'Low'),
-#     mode_name="illness"
-# )
 
 # --------- Illness Stress ---------
 train_and_test(

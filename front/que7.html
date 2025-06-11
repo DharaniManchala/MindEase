@@ -251,10 +251,15 @@ const answers = answers_text.map((ans, i) => mapping[i][ans]);
           body: JSON.stringify(payload)
         })
         .then(res => res.json())
+        // .then(data => {
+        //   localStorage.setItem('stressResults', JSON.stringify(data));
+        //   window.location.href = 'results.html';
+        // })
         .then(data => {
-          localStorage.setItem('stressResults', JSON.stringify(data));
-          window.location.href = 'results.html';
-        })
+  data.domain = "Other"; // Add this line to tag the domain
+  localStorage.setItem('stressResults', JSON.stringify(data));
+  window.location.href = 'results.html';
+})
         .catch(err => {
           alert('Submission failed. Please try again.');
         });

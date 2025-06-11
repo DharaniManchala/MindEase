@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About | MindEase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #a8eafc 0%, #e0c3fc 100%);
+      color: #222;
+    }
+    .about-card {
+      background: rgba(255,255,255,0.95);
+      max-width: 600px;
+      margin: 48px auto 32px auto;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px #00bfff44;
+      padding: 40px 36px 32px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .about-logo {
+      font-size: 2.7rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      color: #00bfff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .about-logo-icon {
+      font-size: 2.2rem;
+      vertical-align: middle;
+    }
+    .about-desc {
+      font-size: 1.18rem;
+      margin-bottom: 28px;
+      color: #444;
+      font-weight: 500;
+    }
+    .about-section-title {
+      font-size: 1.25rem;
+      margin: 32px 0 12px 0;
+      color: #00bfff;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-align: left;
+    }
+    .about-features, .about-how {
+      text-align: left;
+      margin: 0 0 18px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .about-features li {
+      margin-bottom: 12px;
+      font-size: 1.08rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #333;
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 8px 14px;
+      box-shadow: 0 1px 4px #00bfff11;
+    }
+    .about-features li span {
+      font-size: 1.3em;
+    }
+    .about-how li {
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+      color: #444;
+      padding-left: 2px;
+      position: relative;
+    }
+    .about-how li:before {
+      content: "→";
+      color: #00bfff;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .about-mission {
+      margin: 18px 0 0 0;
+      font-size: 1.08rem;
+      color: #4e54c8;
+      background: #eaf6fb;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-style: italic;
+      box-shadow: 0 1px 4px #00bfff11;
+    }
+    .about-team, .about-contact {
+      margin: 22px 0 10px 0;
+      font-size: 1.08rem;
+      color: #333;
+      text-align: left;
+    }
+    .about-contact a {
+      color: #00bfff;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    .about-btns {
+      margin-top: 36px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .about-btn {
+      padding: 13px 28px;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, #00c2ff 0%, #0072ff 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 10px #00bfff33;
+      transition: background 0.3s, transform 0.2s;
+      margin-bottom: 10px;
+    }
+    .about-btn:hover, .about-btn:focus {
+      background: linear-gradient(90deg, #0072ff 0%, #00c2ff 100%);
+      color: #ffd700;
+      transform: scale(1.06);
+    }
+    @media (max-width: 700px) {
+      .about-card {
+        max-width: 98vw;
+        padding: 18px 2vw 18px 2vw;
+      }
+      .about-btns {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .about-section-title {
+        text-align: center;
+      }
+      .about-features, .about-how, .about-team, .about-contact, .about-mission {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="about-card">
+    <div class="about-logo">
+      <span class="about-logo-icon">💙</span> MindEase
+    </div>
+    <div class="about-desc">
+      MindEase helps you understand and manage your stress through interactive quizzes, personalized recommendations, and supportive resources.
+    </div>
+    <div class="about-section-title">Features</div>
+    <ul class="about-features">
+      <li><span>📝</span> Stress quizzes tailored to different life domains</li>
+      <li><span>💡</span> Personalized recommendations based on your results</li>
+      <li><span>📈</span> Progress tracking and history</li>
+      <li><span>🎮</span> Relaxing games for stress relief</li>
+      <li><span>🔗</span> Curated mental health resources</li>
+    </ul>
+    <div class="about-section-title">How It Works</div>
+    <ul class="about-how">
+      <li>Take a quick stress quiz in your chosen area</li>
+      <li>View your results and get actionable recommendations</li>
+      <li>Track your progress and revisit your history anytime</li>
+      <li>Try a relaxing game or explore helpful resources</li>
+    </ul>
+    <div class="about-section-title">Our Mission</div>
+    <div class="about-mission">
+      To empower you to take charge of your mental well-being with simple, science-backed tools and a supportive digital space.
+    </div>
+    <div class="about-section-title">Created By</div>
+    <div class="about-team">
+      <!-- Replace with your name/team -->
+      The MindEase Team
+    </div>
+    <div class="about-section-title">Contact</div>
+    <div class="about-contact">
+      <!-- Replace with your email -->
+      Email: <a href="mailto:dharanimanchala48@gmail.com">dharanimanchala48@gmail.com</a>
+    </div>
+    <div class="about-btns">
+      <button class="about-btn" onclick="window.location.href='../front/sidebar.html'">Back to Dashboard</button>
+      <button class="about-btn" onclick="window.location.href='first.html'">Go to Home Page</button>
+    </div>
+  </div>
+</body>
+</html>

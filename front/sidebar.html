@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -53,6 +52,24 @@
       background-color: rgba(0,0,0,0.4);
       z-index: 50;
     }
+    #historyDaysContainer button {
+      width: 90%;
+      margin: 6px auto;
+      display: block;
+    }
+    .stress-dot {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      width: 16px;
+      height: 16px;
+      background: #ff3333;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 0 6px #ff333399;
+      cursor: pointer;
+      z-index: 10;
+    }
   </style>
 </head>
 <body class="text-white font-sans min-h-screen">
@@ -64,7 +81,8 @@
   </div>
 
   <div id="sidebar">
-    <a href="#" onclick="toggleSidebar()">Previous History</a>
+    <a href="#" id="historyBtn" style="cursor:pointer;">Previous History</a>
+    <div id="historyDaysContainer" style="display:none; margin-top:10px;"></div>
     <a href="#" onclick="logoutUser(); return false;">Logout</a>
   </div>
 
@@ -78,31 +96,31 @@
     </div>
 
     <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-      <div id="academic-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='aca.html'">
+      <div id="academic-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='aca.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
         </svg>
         <span>Academic Stress</span>
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition"  onclick="window.location.href='que2.html'">
+      <div id="family-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition"  onclick="window.location.href='que2.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3h-4M9 20H4v-2a3 3 0 013-3h4m3-6a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <span>Family Issues</span>
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que3.html'">
+      <div id="illness-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que3.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m-6 6a9 9 0 1118 0 9 9 0 01-18 0z" />
         </svg>
         <span>Illness</span>
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que4.html'">
+      <div id="work-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que4.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6m-3-12a9 9 0 110 18 9 9 0 010-18z" />
         </svg>
         <span>Work Stress</span>
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que5.html'">
+      <div id="relationship-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que5.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
           <circle cx="5" cy="12" r="2"/>
           <circle cx="12" cy="12" r="2"/>
@@ -110,13 +128,13 @@
         </svg>
         <span>Relationship Problems</span>
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='ques6.html'">
+      <div id="timemanagement-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='ques6.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <span>Time Management/Workload</span> 
       </div>
-      <div class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que7.html'">
+      <div id="other-stress-card" class="bg-blue-800 bg-opacity-90 rounded-xl p-4 flex flex-col items-center space-y-2 hover:bg-blue-600 transition" onclick="window.location.href='que7.html'" style="position:relative;">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -125,6 +143,7 @@
     </div>
   </div>
 
+  <script src="history.js"></script>
   <script>
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -157,45 +176,46 @@
       return Math.floor((now - then) / (1000 * 60 * 60 * 24));
     }
 
+    // Show high stress notification (red dot) for all domains
     window.addEventListener('DOMContentLoaded', () => {
-      const email = localStorage.getItem('userEmail');
-      const card = document.getElementById('academic-stress-card');
-      const notified = localStorage.getItem('highStressNotified_' + email);
-      const date = localStorage.getItem('highStressDate_' + email);
-
-      // Show red dot for up to 7 days after high stress
-      if (notified === 'true' && date && daysSince(date) < 7) {
-        // Create red dot
-        const dot = document.createElement('span');
-        dot.id = "stress-dot";
-        dot.style.position = "absolute";
-        dot.style.top = "12px";
-        dot.style.right = "18px";
-        dot.style.width = "16px";
-        dot.style.height = "16px";
-        dot.style.background = "#ff3333";
-        dot.style.borderRadius = "50%";
-        dot.style.border = "2px solid #fff";
-        dot.style.boxShadow = "0 0 6px #ff333399";
-        dot.style.cursor = "pointer";
-        dot.title = "Click for stress safety tips";
-        dot.style.zIndex = 10;
-
-        // Position parent relative
-        card.style.position = "relative";
-        card.appendChild(dot);
-
-        // Tooltip logic
-        dot.onclick = function(e) {
-          e.stopPropagation();
-          showStressTooltip(card);
-        };
-      }
-      // Optionally, clear notification after 7 days
-      if (notified === 'true' && date && daysSince(date) >= 7) {
-        localStorage.removeItem('highStressNotified_' + email);
-        localStorage.removeItem('highStressDate_' + email);
-      }
+      const email = localStorage.getItem('userEmail') || '';
+      const domains = [
+        { key: "Academic", cardId: "academic-stress-card" },
+        { key: "Family", cardId: "family-stress-card" },
+        { key: "Illness", cardId: "illness-stress-card" },
+        { key: "Work", cardId: "work-stress-card" },
+        { key: "Relationship", cardId: "relationship-stress-card" },
+        { key: "Time Management", cardId: "timemanagement-stress-card" },
+        { key: "Other", cardId: "other-stress-card" }
+      ];
+      domains.forEach(domain => {
+        const notified = localStorage.getItem('highStressNotified_' + domain.key + '_' + email);
+        const date = localStorage.getItem('highStressDate_' + domain.key + '_' + email);
+        const card = document.getElementById(domain.cardId);
+        if (!card) return;
+        // Show red dot for up to 7 days after high stress
+        if (notified === 'true' && date && daysSince(date) < 7) {
+          // Create red dot
+          if (!card.querySelector('.stress-dot')) {
+            const dot = document.createElement('span');
+            dot.className = "stress-dot";
+            dot.title = "Click for stress safety tips";
+            card.appendChild(dot);
+            dot.onclick = function(e) {
+              e.stopPropagation();
+              showStressTooltip(card);
+            };
+          }
+          card.style.position = "relative";
+        }
+        // Optionally, clear notification after 7 days
+        if (notified === 'true' && date && daysSince(date) >= 7) {
+          localStorage.removeItem('highStressNotified_' + domain.key + '_' + email);
+          localStorage.removeItem('highStressDate_' + domain.key + '_' + email);
+          const dot = card.querySelector('.stress-dot');
+          if (dot) dot.remove();
+        }
+      });
     });
 
     function showStressTooltip(parent) {
@@ -238,6 +258,121 @@
         });
       }, 10);
     }
+
+    // Previous History logic for sidebar (multi-session per day, one at a time)
+    document.getElementById('historyBtn').onclick = function(e) {
+      e.preventDefault();
+      const days = getHistoryDays(); // from history.js
+      const container = document.getElementById('historyDaysContainer');
+      container.innerHTML = '';
+      if (days.length === 0) {
+        container.style.display = 'block';
+        container.innerHTML = '<div class="text-white mt-2">No history yet.</div>';
+        return;
+      }
+      days.forEach((date, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Day ${idx + 1}`;
+        btn.className = "bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold m-1";
+        btn.onclick = () => {
+          // Load all sessions for this day
+          const sessions = JSON.parse(localStorage.getItem('history_details_' + date)) || [];
+          if (sessions.length === 0) {
+            document.getElementById('historyModalContent').innerHTML = `<div class="text-white">No session data for this day.</div>`;
+            document.getElementById('historyModal').style.display = 'flex';
+            return;
+          }
+          let sessionIndex = 0;
+          function showSession(idx) {
+            const details = sessions[idx];
+            let navHtml = '';
+            if (sessions.length > 1) {
+              navHtml = `
+                <div class="flex justify-between mt-4">
+                  <button id="prevSessionBtn" class="px-4 py-2 bg-blue-600 rounded text-white" ${idx === 0 ? 'style="visibility:hidden;"' : ''}>&larr; Prev</button>
+                  <button id="nextSessionBtn" class="px-4 py-2 bg-blue-600 rounded text-white" ${idx === sessions.length - 1 ? 'style="visibility:hidden;"' : ''}>Next &rarr;</button>
+                </div>
+              `;
+            }
+            document.getElementById('historyModalContent').innerHTML = `
+              <div class="mb-6 p-4 rounded-xl bg-blue-800 bg-opacity-80">
+                <h2 class="text-xl font-bold mb-2 text-center">Session ${idx + 1} ${details.domain ? `<span class="text-blue-200">(${details.domain})</span>` : ''}</h2>
+                <div class="mb-2 text-lg"><b>Stress Level:</b> <span class="text-yellow-300">${details.level}</span> (${details.percent}%)</div>
+                <div class="mb-2"><b>Recommendations:</b> <ul class="list-disc ml-6">${
+                  (details.recommendations || []).map(r =>
+                    `<li>${r.recommendation || r.text || r.effect || r}</li>`
+                  ).join('')
+                }</ul></div>
+                <div class="mb-2"><b>Effects:</b> <ul class="list-disc ml-6">${
+                  (details.effects || []).map(e =>
+                    `<li>${e.text || e.effect || e}</li>`
+                  ).join('')
+                }</ul></div>
+                <div class="mb-2"><b>Resources:</b> <ul class="list-disc ml-6">${
+                  (details.resources || []).map(r =>
+                    `<li>${r.title || r}</li>`
+                  ).join('')
+                }</ul></div>
+                <div class="mb-2"><b>Answers:</b> ${(details.answers || []).join(', ')}</div>
+                <canvas id="history-graph" width="320" height="120" class="my-4 rounded-lg bg-blue-800"></canvas>
+                ${navHtml}
+              </div>
+            `;
+            drawHistoryGraph(details.answers, 'history-graph');
+            if (sessions.length > 1) {
+              const prevBtn = document.getElementById('prevSessionBtn');
+              const nextBtn = document.getElementById('nextSessionBtn');
+              if (prevBtn) prevBtn.onclick = function() {
+                if (sessionIndex > 0) {
+                  sessionIndex--;
+                  showSession(sessionIndex);
+                }
+              };
+              if (nextBtn) nextBtn.onclick = function() {
+                if (sessionIndex < sessions.length - 1) {
+                  sessionIndex++;
+                  showSession(sessionIndex);
+                }
+              };
+            }
+          }
+          sessionIndex = 0;
+          showSession(sessionIndex);
+          document.getElementById('historyModal').style.display = 'flex';
+        };
+        container.appendChild(btn);
+      });
+      container.style.display = 'block';
+    };
+
+    function closeHistoryModal() {
+      document.getElementById('historyModal').style.display = 'none';
+    }
+
+    // Simple line graph for answers
+    function drawHistoryGraph(answers, canvasId = 'history-graph') {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      ctx.clearRect(0,0,320,120);
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for(let i=0;i<answers.length;i++) {
+        const x = 30 + i*45;
+        const y = 100 - (answers[i]-1)*18;
+        if(i===0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+      }
+      ctx.stroke();
+    }
   </script>
+
+  <!-- History Modal -->
+  <div id="historyModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,32,0.85); z-index:999; align-items:center; justify-content:center;">
+    <div class="bg-blue-900 bg-opacity-95 rounded-2xl p-8 max-w-lg w-full mx-auto shadow-2xl relative flex flex-col items-center" style="min-height:400px;">
+      <button onclick="closeHistoryModal()" style="position:absolute;top:18px;right:18px;font-size:28px;color:#fff;background:none;border:none;">&times;</button>
+      <div id="historyModalContent" class="text-white w-full"></div>
+    </div>
+  </div>
 </body>
 </html>
