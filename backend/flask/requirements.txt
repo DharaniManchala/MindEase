@@ -4,3 +4,6 @@ scikit-learn
 joblib
 gunicorn
 flask-cors
+jinja2
+flask-socketio
+werkzeug
