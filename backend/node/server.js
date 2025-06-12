@@ -3,7 +3,7 @@
 // app.listen(5000, () => console.log('Server running on port 5000'));
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+ const cors = require('cors');
 require('dotenv').config();
 
 const fs = require('fs');
@@ -14,6 +14,15 @@ const User = require('./models/User');
 
 const app = express();
 app.use(cors());
+// const cors = require('cors');
+
+// app.use(cors({
+//   origin: ["https://mind-ease-y8dq.vercel.app"],
+//   methods: ["GET", "POST", "OPTIONS"],
+//   allowedHeaders: ["Content-Type"],
+// }));
+
+
 app.use(express.json());
 
 // MongoDB connection
