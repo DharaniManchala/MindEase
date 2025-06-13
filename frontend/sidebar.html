@@ -259,10 +259,20 @@
       }, 10);
     }
 
+    // --- User-specific history logic ---
+
+    // Get only days with sessions for the logged-in user
+    function getHistoryDays() {
+      const email = localStorage.getItem('userEmail');
+      if (!email) return [];
+      let days = JSON.parse(localStorage.getItem('history_days_' + email) || '[]');
+      return days;
+    }
+
     // Previous History logic for sidebar (multi-session per day, one at a time)
     document.getElementById('historyBtn').onclick = function(e) {
       e.preventDefault();
-      const days = getHistoryDays(); // from history.js
+      const days = getHistoryDays();
       const container = document.getElementById('historyDaysContainer');
       container.innerHTML = '';
       if (days.length === 0) {
@@ -275,22 +285,22 @@
         btn.textContent = `Day ${idx + 1}`;
         btn.className = "bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold m-1";
         btn.onclick = () => {
-          // Load all sessions for this day
-          const sessions = JSON.parse(localStorage.getItem('history_details_' + date)) || [];
-          if (sessions.length === 0) {
+          const email = localStorage.getItem('userEmail');
+          const allSessions = JSON.parse(localStorage.getItem('history_details_' + date + '_' + email) || '[]');
+          if (allSessions.length === 0) {
             document.getElementById('historyModalContent').innerHTML = `<div class="text-white">No session data for this day.</div>`;
             document.getElementById('historyModal').style.display = 'flex';
             return;
           }
           let sessionIndex = 0;
           function showSession(idx) {
-            const details = sessions[idx];
+            const details = allSessions[idx];
             let navHtml = '';
-            if (sessions.length > 1) {
+            if (allSessions.length > 1) {
               navHtml = `
                 <div class="flex justify-between mt-4">
                   <button id="prevSessionBtn" class="px-4 py-2 bg-blue-600 rounded text-white" ${idx === 0 ? 'style="visibility:hidden;"' : ''}>&larr; Prev</button>
-                  <button id="nextSessionBtn" class="px-4 py-2 bg-blue-600 rounded text-white" ${idx === sessions.length - 1 ? 'style="visibility:hidden;"' : ''}>Next &rarr;</button>
+                  <button id="nextSessionBtn" class="px-4 py-2 bg-blue-600 rounded text-white" ${idx === allSessions.length - 1 ? 'style="visibility:hidden;"' : ''}>Next &rarr;</button>
                 </div>
               `;
             }
@@ -319,7 +329,7 @@
               </div>
             `;
             drawHistoryGraph(details.answers, 'history-graph');
-            if (sessions.length > 1) {
+            if (allSessions.length > 1) {
               const prevBtn = document.getElementById('prevSessionBtn');
               const nextBtn = document.getElementById('nextSessionBtn');
               if (prevBtn) prevBtn.onclick = function() {
@@ -329,7 +339,7 @@
                 }
               };
               if (nextBtn) nextBtn.onclick = function() {
-                if (sessionIndex < sessions.length - 1) {
+                if (sessionIndex < allSessions.length - 1) {
                   sessionIndex++;
                   showSession(sessionIndex);
                 }
