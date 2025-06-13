@@ -1,5 +1,4 @@
-
-  body {
+ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #f0f9ff;
@@ -7,7 +6,7 @@
   overflow-x: hidden;
 }
 
-/* .hero {
+.hero {
   background: url('hello.jpg') no-repeat center center/cover;
   height: 100vh;
   color: white;
@@ -16,27 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-} */
- .hero {
-  background: url('hello.jpg') no-repeat center center/cover;
-  min-height: 100vh; /* Use min-height so it adjusts */
-  color: white;
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
-
-.hero-container {
-  background-color: rgba(0, 0, 0, 0.6); /* Optional: dark overlay on image */
-  padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 
 .logo-title {
   display: flex;
@@ -61,10 +40,10 @@
 
 
 
-  nav {
+ nav {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center; /* Align items vertically */
   padding: 20px 40px;
   position: absolute;
   top: 0;
@@ -74,10 +53,10 @@
 
 .nav-links {
   display: flex;
-  gap: 20px; 
-  width:100%;
-  justify-content: flex-end;
-  flex-wrap: nowrap; }
+  gap: 20px; /* Adds space between buttons */
+  flex-wrap: nowrap; /* Prevent buttons from wrapping */
+}
+
 .nav-links a {
   padding: 10px 20px;
   font-size: 18px;
@@ -87,13 +66,13 @@
   border-radius: 5px;
   font-weight: bold;
   transition: 0.3s;
-  white-space: nowrap; 
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .nav-links a:hover {
   background-color: #b2ebf2;
   color: #004d40;
-} 
+}
 
 
 .hero-text h1 {
@@ -194,34 +173,5 @@ footer {
   to {
     transform: translateY(0);
     opacity: 1;
-  }
-}
-
-
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .nav-links a {
-    padding: 8px 16px;
-    font-size: 16px;
-  }
-
-  .hero-text h1 {
-    font-size: 32px;
-  }
-
-  .hero-text p {
-    font-size: 18px;
   }
 }
