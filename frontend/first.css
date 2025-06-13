@@ -1,143 +1,4 @@
- /* body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f9ff;
-  color: #333;
-  overflow-x: hidden;
-}
 
-.hero {
-  background: url('img.jpg') no-repeat center center/cover;
-  height: 100vh;
-  color: white;
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.nav-links a {
-  margin-left: 20px;
-  color: white;
-  text-decoration: none;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards;
-}
-
-.nav-links a:nth-child(1) { animation-delay: 1s; }
-.nav-links a:nth-child(2) { animation-delay: 2s; }
-.nav-links a:nth-child(3) { animation-delay: 3s; }
-
-.hero-text h2,
-.hero-text p {
-  opacity: 0;
-  animation: fadeInUp 2s ease forwards;
-}
-
-.hero-text h2 {
-  animation-delay: 1s;
-}
-
-.hero-text p {
-  animation-delay: 2s;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-section {
-  padding: 50px 20px;
-  text-align: center;
-}
-
-.tip-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
-.tip {
-  background: #e0f7fa;
-  padding: 20px;
-  border-radius: 10px;
-  width: 200px;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.6s ease;
-}
-
-.book-list {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.book {
-  width: 200px;
-}
-
-.book img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.faq-item {
-  margin: 20px;
-  text-align: left;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.question {
-  width: 100%;
-  padding: 10px;
-  background: #006064;
-  color: white;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.answer {
-  display: none;
-  padding: 10px;
-  background: #e0f2f1;
-}
-
-footer {
-  background: #004d40;
-  color: white;
-  padding: 20px;
-  text-align: center;
-} 
-  */
   body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -146,7 +7,7 @@ footer {
   overflow-x: hidden;
 }
 
-.hero {
+/* .hero {
   background: url('hello.jpg') no-repeat center center/cover;
   height: 100vh;
   color: white;
@@ -155,7 +16,27 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+} */
+ .hero {
+  background: url('hello.jpg') no-repeat center center/cover;
+  min-height: 100vh; /* Use min-height so it adjusts */
+  color: white;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
+.hero-container {
+  background-color: rgba(0, 0, 0, 0.6); /* Optional: dark overlay on image */
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 
 .logo-title {
   display: flex;
@@ -177,35 +58,13 @@ footer {
 }
 
 
-/* nav {
+
+
+
+  nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.nav-links a {
-  margin-left: 50px;
-  padding: 10px 20px;
-  font-size: 18px;
-  background: #ffffff55;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: 0.3s ease;
-}
-
-.nav-links a:hover {
-  background: #ffffffaa;
-  color: #004d40;
-} */
- nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* Align items vertically */
+  align-items: center; 
   padding: 20px 40px;
   position: absolute;
   top: 0;
@@ -215,10 +74,10 @@ footer {
 
 .nav-links {
   display: flex;
-  gap: 20px; /* Adds space between buttons */
-  flex-wrap: nowrap; /* Prevent buttons from wrapping */
-}
-
+  gap: 20px; 
+  width:100%;
+  justify-content: flex-end;
+  flex-wrap: nowrap; }
 .nav-links a {
   padding: 10px 20px;
   font-size: 18px;
@@ -228,13 +87,13 @@ footer {
   border-radius: 5px;
   font-weight: bold;
   transition: 0.3s;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap; 
 }
 
 .nav-links a:hover {
   background-color: #b2ebf2;
   color: #004d40;
-}
+} 
 
 
 .hero-text h1 {
@@ -335,5 +194,34 @@ footer {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-links a {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  .hero-text h1 {
+    font-size: 32px;
+  }
+
+  .hero-text p {
+    font-size: 18px;
   }
 }
