@@ -347,7 +347,8 @@
       {'Very well':1, 'Somewhat':2, 'Not much':4, 'Not at all':5} // Q5: Very well = low stress, Not at all = high stress
     ];
     const answers_num = answers.map((ans, i) => mapping[i][ans]);
-    fetch('http://127.0.0.1:5001/predict-stress', {
+    //fetch('http://127.0.0.1:5001/predict-stress', {
+    fetch('https://mindease-production-bc7d.up.railway.app/predict-stress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

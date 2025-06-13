@@ -212,7 +212,8 @@
       // const answers = selected.map((sel, idx) => mappings[idx][questions[idx].options[sel]]);
         const answers = selected.map((sel, idx) => mappings[idx][questions[idx].options[sel]]);
       // const answers = selected.map((sel, idx) => questions[idx].options[sel]);
-      const res = await fetch('http://127.0.0.1:5001/predict-stress', {
+      //const res = await fetch('http://127.0.0.1:5001/predict-stress', {
+      const res = await fetch('https://mindease-production-bc7d.up.railway.app/predict-stress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers, email })

@@ -1,9 +1,6 @@
-
-
-// app.listen(5000, () => console.log('Server running on port 5000'));
 const express = require('express');
 const mongoose = require('mongoose');
- const cors = require('cors');
+//const cors = require('cors');
 require('dotenv').config();
 
 const fs = require('fs');
@@ -13,15 +10,23 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const User = require('./models/User');
 
 const app = express();
-app.use(cors());
-// const cors = require('cors');
 
+// For production, restrict CORS to your frontend domain:
 // app.use(cors({
 //   origin: ["https://mind-ease-y8dq.vercel.app"],
 //   methods: ["GET", "POST", "OPTIONS"],
 //   allowedHeaders: ["Content-Type"],
 // }));
-
+const cors = require('cors');
+app.use(cors({
+  origin: [
+    "https://mind-ease-y8dq.vercel.app", // your Vercel frontend
+    "http://localhost:3000" // for local testing, optional
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true
+}));
 
 app.use(express.json());
 
@@ -73,7 +78,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Logout route
+// Logout route (optional: only if you want to delete user on logout)
 app.post('/logout', async (req, res) => {
   const { email } = req.body;
   try {
@@ -110,4 +115,7 @@ app.post('/submit-academic-stress', async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+// Use process.env.PORT for Vercel or Railway deployments
+const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

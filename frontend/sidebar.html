@@ -160,7 +160,9 @@
     async function logoutUser() {
       const email = localStorage.getItem('userEmail');
       if (email) {
-        await fetch('http://localhost:5000/logout', {
+        //await fetch('http://localhost:5000/logout', {
+        await fetch('https://mind-ease-sage.vercel.app/logout', {
+
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })

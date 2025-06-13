@@ -202,7 +202,8 @@
         answers_text,
         type: 'timemanagement'
       };
-      fetch('http://localhost:5001/predict-stress', {
+      //fetch('http://localhost:5001/predict-stress', {
+      fetch('https://mindease-production-bc7d.up.railway.app/predict-stress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
