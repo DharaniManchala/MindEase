@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-//const cors = require('cors');
+
 require('dotenv').config();
 
 const fs = require('fs');
@@ -11,12 +11,7 @@ const User = require('./models/User');
 
 const app = express();
 
-// For production, restrict CORS to your frontend domain:
-// app.use(cors({
-//   origin: ["https://mind-ease-y8dq.vercel.app"],
-//   methods: ["GET", "POST", "OPTIONS"],
-//   allowedHeaders: ["Content-Type"],
-// }));
+
 const cors = require('cors');
 app.use(cors({
   origin: [

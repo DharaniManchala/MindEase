@@ -156,21 +156,19 @@
         overlay.style.display = 'block';
       }
     }
-
     async function logoutUser() {
-      const email = localStorage.getItem('userEmail');
-      if (email) {
-        //await fetch('http://localhost:5000/logout', {
-        await fetch('https://mind-ease-sage.vercel.app/logout', {
+  const email = localStorage.getItem('userEmail');
+  if (email) {
+    await fetch('https://mindease-8d8g.onrender.com/logout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    localStorage.removeItem('userEmail');
+  }
+  window.location.href = "index.html";
+}
 
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        localStorage.removeItem('userEmail');
-      }
-      window.location.href = "../frontend/first.html";
-    }
 
     function daysSince(dateString) {
       const now = Date.now();
