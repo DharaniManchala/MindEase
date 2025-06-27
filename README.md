@@ -46,58 +46,55 @@ MindEase is a mental wellness web application that helps users identify their st
 - 🧘 More games and relaxation tools  
 - 🌍 Multi-language support  
 
----
-
-## 📸 Screenshots
+---## 📸 Screenshots
 
 ### 🏠 Home Page
-<img src="./screenshots/homepage.png" alt="Home Page" width="600"/>
-
-### 📊 Dashboard
-<img src="./screenshots/dashboard..png" alt="Dashboard" width="600"/>
+<p align="center">
+  <img src="./screenshots/homepage.png" width="45%"/>
+  <img src="./screenshots/dashboard..png" width="45%"/>
+</p>
 
 ### ❓ Questions (User Input Screens)
-
-- Question 1  
-  <img src="./screenshots/question1.png" alt="Question 1" width="600"/>
-- Question 2  
-  <img src="./screenshots/question2.png" alt="Question 2" width="600"/>
-- Question 3  
-  <img src="./screenshots/question3.png" alt="Question 3" width="600"/>
-- Question 4  
-  <img src="./screenshots/question4.png" alt="Question 4" width="600"/>
-- Question 5  
-  <img src="./screenshots/question5.png" alt="Question 5" width="600"/>
-- Question 6  
-  <img src="./screenshots/question6.png" alt="Question 6" width="600"/>
-- Question 7  
-  <img src="./screenshots/question7.png" alt="Question 7" width="600"/>
+<p align="center">
+  <img src="./screenshots/question1.png" width="45%"/>
+  <img src="./screenshots/question2.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/question3.png" width="45%"/>
+  <img src="./screenshots/question4.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/question5.png" width="45%"/>
+  <img src="./screenshots/question6.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/question7.png" width="45%"/>
+</p>
 
 ### 📈 Stress Results
+<p align="center">
+  <img src="./screenshots/results1.png" width="45%"/>
+  <img src="./screenshots/results2.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/results3.png" width="45%"/>
+  <img src="./screenshots/results4.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/results5.png" width="45%"/>
+  <img src="./screenshots/results6.png" width="45%"/>
+</p>
+<p align="center">
+  <img src="./screenshots/results7.png" width="45%"/>
+</p>
+🧭 Final Page – Action Buttons
+<p align="center">
+  <img src="./screenshots/finalpage.png" width="45%"/>
+</p>
 
-- Result 1  
-  <img src="./screenshots/results1.png" alt="Result 1" width="600"/>
-- Result 2  
-  <img src="./screenshots/results2.png" alt="Result 2" width="600"/>
-- Result 3  
-  <img src="./screenshots/results3.png" alt="Result 3" width="600"/>
-- Result 4  
-  <img src="./screenshots/results4.png" alt="Result 4" width="600"/>
-- Result 5  
-  <img src="./screenshots/results5.png" alt="Result 5" width="600"/>
-- Result 6  
-  <img src="./screenshots/results6.png" alt="Result 6" width="600"/>
-- Result 7  
-  <img src="./screenshots/results7.png" alt="Result 7" width="600"/>
 
-### 🧭 Post-Results Navigation Page
 
-> This page is shown after completing all questions and viewing results. It contains two buttons:  
-> 🔁 Go to Homepage | 📊 View Dashboard
 
-<img src="./screenshots/finalpage.png" alt="Final Page" width="600"/>
-
----
 
 ## 🙌 Support & Feedback
 
