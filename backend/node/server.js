@@ -12,16 +12,19 @@ const User = require('./models/User');
 const app = express();
 
 
-const cors = require('cors');
-app.use(cors({
-  origin: [
-    "https://mind-ease-y8dq.vercel.app", // your Vercel frontend
-    "http://localhost:3000" // for local testing, optional
-  ],
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
-  credentials: true
-}));
+
+const cors = require("cors");
+app.use(cors()); // Allow all origins TEMPORARILY for testing
+
+// app.use(cors({
+//   origin: [
+//     "https://mind-ease-y8dq.vercel.app", // your Vercel frontend
+//     "http://localhost:3000" // for local testing, optional
+//   ],
+//   methods: ["GET", "POST", "OPTIONS"],
+//   allowedHeaders: ["Content-Type"],
+//   credentials: true
+// }));
 app.options('*', cors()); 
 
 app.use(express.json());
