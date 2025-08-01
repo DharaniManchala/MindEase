@@ -159,7 +159,7 @@
     async function logoutUser() {
   const email = localStorage.getItem('userEmail');
   if (email) {
-    await fetch('https://mindease-8d8g.onrender.com/logout', {
+    await fetch('https://mindease-7.onrender.com/logout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
